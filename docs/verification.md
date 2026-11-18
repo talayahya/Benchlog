@@ -4,7 +4,7 @@ Checked during development on **18 November 2026**. This record distinguishes ob
 
 ## Observed browser workflow
 
-The production build was served on **localhost and exercised in desktop Microsoft Edge**. These observations concern that build and environment; they do not establish that a public deployment or every other browser has been checked.
+The production build was exercised on **localhost and the published GitHub Pages site in desktop Microsoft Edge**. The public deployment at [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/) was verified on 18 November 2026 after GitHub Actions passed its tests, build and deployment. These observations concern that environment; they do not establish support in every browser.
 
 | Check                  | Observed result                                                                                                                                                    | What it establishes                                                                                                      |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
@@ -19,6 +19,10 @@ The production build was served on **localhost and exercised in desktop Microsof
 
 The sample route opens an isolated synthetic notebook. The ordinary guided example buttons pass text to the interpreter; they are useful for exploring the command workflow but do not run speech recognition themselves. The audio-fixture route is deliberately separate so reviewers can tell those two kinds of demonstration apart.
 
+The hosted check repeated actual Whisper inference and returned the same transcript, **“At 1 kilohertz, output 1.7 volts.”** Correction to **1.68 Vpp** and confirmation then produced the fifth saved example reading and a new point at **−1.51 dB**. No browser warnings or errors were reported during that check. [Published workflow run](https://github.com/talayahya/Benchlog/actions/runs/44387691058)
+
+An earlier hosted check caught a lifecycle bug: backgrounding the tab cancelled an explicitly requested file transcription. The fix separates file inference from live microphone capture. File transcription now continues while hidden; live capture and read-back still stop, and cancelling or switching notebooks still prevents stale file results from being applied.
+
 ## Automated verification
 
 Run the current repository's checks:
@@ -28,7 +32,7 @@ npm test
 npm run build
 ```
 
-All **91 tests passed** in the full-suite check on 18 November 2026. The test suite covers the implemented command engine and speech lifecycle using controlled inputs and mocked browser APIs. Relevant areas include number/unit handling, invalid inputs, pending versus confirmed records, corrections, export behaviour, cancellation and stale callbacks. This is a dated result; use the runner output for the current count and result as the suite changes.
+All **94 tests passed** in the full-suite check on 18 November 2026. The test suite covers the implemented command engine and speech lifecycle using controlled inputs and mocked browser APIs. Relevant areas include number/unit handling, invalid inputs, pending versus confirmed records, corrections, export behaviour, cancellation and stale callbacks. Three additional regressions check that explicitly requested file transcription continues in the background while live microphone capture stops when the tab becomes hidden. This is a dated result; use the runner output for the current count and result as the suite changes.
 
 Mocked microphone and speech-synthesis tests check the application's reactions to events. They do not measure how well a real microphone captures speech, whether a real browser recognises different voices, or how noisy a laboratory can be before the workflow degrades.
 
