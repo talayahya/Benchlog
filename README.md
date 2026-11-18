@@ -5,7 +5,7 @@ A voice notebook for the electronics bench. Say a reading while holding your pro
 Built for the **Hiya Voice AI Challenge, Productivity track**. The initial workflow is a sine-wave frequency sweep through an RC low-pass filter. Benchlog records values read by a person; it does not connect to or operate lab instruments.
 
 - Repository: [github.com/talayahya/Benchlog](https://github.com/talayahya/Benchlog/)
-- Planned live demo: [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/) _(deployment pending verification)_
+- Live demo: [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/)
 - [One-page project explanation](docs/submission.md)
 - [AI assistance disclosure](ai.md)
 - [Research and design decisions](docs/research.md)

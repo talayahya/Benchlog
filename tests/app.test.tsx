@@ -56,7 +56,11 @@ beforeEach(() => {
     this.removeAttribute("open");
   };
 });
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
 
 describe("real notebook workflows", () => {
   it("keeps a dictated value out of the saved ledger until corrected and confirmed", async () => {
@@ -188,5 +192,101 @@ describe("real notebook workflows", () => {
     });
     expect(notebook().pending).toBeNull();
     expect(notebook().measurements).toHaveLength(0);
+  });
+
+  it("lets an explicitly uploaded file finish when the tab becomes hidden", async () => {
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "How it works" }));
+    fireEvent.change(
+      document.querySelector<HTMLInputElement>('input[type="file"]')!,
+      {
+        target: {
+          files: [new File(["dummy"], "reading.wav", { type: "audio/wav" })],
+        },
+      },
+    );
+    await waitFor(() => expect(clip.resolve).not.toBeNull());
+    vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    fireEvent(document, new Event("visibilitychange"));
+    expect(
+      screen.getByRole("button", { name: "Cancel transcription" }),
+    ).toBeTruthy();
+    await act(async () => {
+      clip.resolve!("At 900 hertz output 1.8 volts");
+    });
+    expect(notebook().pending).toMatchObject({
+      frequencyHz: 900,
+      outputVpp: 1.8,
+      source: "voice",
+    });
+    expect(notebook().measurements).toHaveLength(0);
+  });
+
+  it("keeps the synthetic sample operation alive across background fetch and inference", async () => {
+    let finishFetch!: (value: unknown) => void;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        () =>
+          new Promise((resolve) => {
+            finishFetch = resolve;
+          }),
+      ),
+    );
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: "How it works" }));
+    await userEvent.click(
+      screen.getByRole("button", {
+        name: "Transcribe the sample on this device",
+      }),
+    );
+    vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    fireEvent(document, new Event("visibilitychange"));
+    expect(
+      screen.getByRole("button", { name: "Cancel transcription" }),
+    ).toBeTruthy();
+    await act(async () => {
+      finishFetch({
+        ok: true,
+        blob: async () => new Blob(["dummy"], { type: "audio/wav" }),
+      });
+    });
+    await waitFor(() => expect(clip.resolve).not.toBeNull());
+    fireEvent(document, new Event("visibilitychange"));
+    await act(async () => {
+      clip.resolve!("At one kilohertz output one point seven volts");
+    });
+    expect(screen.getByRole("button", { name: "Save reading" })).toBeTruthy();
+    expect(screen.getByRole("status").textContent).toContain(
+      "1.7 volts peak-to-peak",
+    );
+    expect(notebook().pending).toBeNull();
+    expect(notebook().measurements).toHaveLength(0);
+  });
+
+  it("still stops a live microphone session when the tab becomes hidden", async () => {
+    const abort = vi.fn();
+    class Recognition {
+      onstart: null | (() => void) = null;
+      start() {
+        this.onstart?.();
+      }
+      abort = abort;
+    }
+    vi.stubGlobal("SpeechRecognition", Recognition);
+    render(<App />);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Start voice session" }),
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: "Start listening" }),
+    );
+    expect(screen.getByRole("button", { name: "Stop session" })).toBeTruthy();
+    vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    fireEvent(document, new Event("visibilitychange"));
+    expect(abort).toHaveBeenCalledOnce();
+    expect(
+      screen.getByRole("button", { name: "Start voice session" }),
+    ).toBeTruthy();
   });
 });

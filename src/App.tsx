@@ -254,7 +254,9 @@ export default function App() {
   }, [live, storageError]);
   useEffect(() => {
     const hidden = () => {
-      if (document.hidden) stopVoice();
+      // Live capture/readback should not continue out of sight. An explicitly
+      // selected audio file has no live microphone and can finish in the background.
+      if (document.hidden) stopLiveVoice();
     };
     document.addEventListener("visibilitychange", hidden);
     return () => {
@@ -266,14 +268,20 @@ export default function App() {
   }, []);
   const process = (text: string, source: Source = "typed") =>
     processRef.current(text, source);
+  function stopLiveVoice() {
+    const hadLiveController = voiceRef.current !== null;
+    voiceRef.current?.dispose();
+    voiceRef.current = null;
+    captureRef.current = false;
+    setCapture(false);
+    setStatus("idle");
+    if (hadLiveController) setInterim("");
+  }
   function stopVoice() {
     operation.current++;
     localClip.current?.dispose();
     localClip.current = null;
-    voiceRef.current?.dispose();
-    voiceRef.current = null;
-    setCapture(false);
-    setStatus("idle");
+    stopLiveVoice();
     setInterim("");
     setLocalBusy(false);
   }
@@ -346,9 +354,10 @@ export default function App() {
       );
     setExportOpen(false);
   }
-  async function transcribeClip(file: File) {
-    stopVoice();
-    const currentOperation = operation.current;
+  async function transcribeClip(file: File, existingOperation?: number) {
+    if (existingOperation === undefined) stopVoice();
+    const currentOperation = existingOperation ?? operation.current;
+    if (currentOperation !== operation.current) return;
     setLocalBusy(true);
     setError("");
     try {
@@ -361,10 +370,10 @@ export default function App() {
       process(text, "voice");
       return true;
     } catch (e) {
-      if (currentOperation === operation.current)
-        setError(
-          e instanceof Error ? e.message : "The clip could not be transcribed.",
-        );
+      if (currentOperation !== operation.current) return;
+      setError(
+        e instanceof Error ? e.message : "The clip could not be transcribed.",
+      );
       return false;
     } finally {
       if (currentOperation === operation.current) {
@@ -383,6 +392,9 @@ export default function App() {
     setStep(1);
     setModal(null);
     const sampleOperation = operation.current;
+    setLocalBusy(true);
+    setError("");
+    setInterim("Loading the sample recording…");
     try {
       const response = await fetch(
         `${import.meta.env.BASE_URL}examples/reading.wav`,
@@ -393,12 +405,22 @@ export default function App() {
       if (operation.current !== sampleOperation) return;
       const succeeded = await transcribeClip(
         new File([blob], "synthetic-reading.wav", { type: "audio/wav" }),
+        sampleOperation,
       );
-      if (succeeded === false) setStep(0);
+      if (operation.current === sampleOperation && succeeded === false)
+        setStep(0);
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "The sample could not be loaded.",
-      );
+      if (operation.current === sampleOperation) {
+        setStep(0);
+        setError(
+          e instanceof Error ? e.message : "The sample could not be loaded.",
+        );
+      }
+    } finally {
+      if (operation.current === sampleOperation) {
+        setLocalBusy(false);
+        setInterim("");
+      }
     }
   }
   const latest = session.measurements.at(-1),
@@ -448,13 +470,11 @@ export default function App() {
         <aside className="experiment">
           <p className="eyebrow">The experiment</p>
           <h1>
-            Keep your hands{" "}
-            <br />
+            Keep your hands <br />
             on the circuit.
           </h1>
           <p className="intro">
-            Read the instrument aloud.{" "}
-            <br />
+            Read the instrument aloud. <br />
             Confirm each value.
           </p>
           <div className="circuit-label">
