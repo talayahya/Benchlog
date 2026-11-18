@@ -113,7 +113,7 @@ The guided example data makes it possible to explore the command workflow withou
 
 There is also a separate **real recognition test**: open **How it works** and choose **Transcribe the sample on this device**. This takes the bundled `public/examples/reading.wav` recording, made with Windows text-to-speech, and actually runs it through local Whisper. It opens a separate example notebook so it does not mix those values with personal measurements.
 
-That fixture was checked in desktop Edge against the production build. Whisper produced “At one kilohertz, output 1.7 volts.” The app showed a pending 1000 Hz / 1.7 Vpp reading. The guided correction changed it to 1.68 Vpp, and confirmation added it to the table and graph. That is useful evidence that audio decoding, model inference, interpretation and confirmation work together for this sample. It does not prove live microphone accuracy, performance across accents, a physical experiment or a time saving.
+That fixture was checked in desktop Edge against the production build. Whisper produced “At 1 kilohertz, output 1.7 volts.” The app showed a pending 1000 Hz / 1.7 Vpp reading. The guided correction changed it to 1.68 Vpp, and confirmation added it to the table and graph. That is useful evidence that audio decoding, model inference, interpretation and confirmation work together for this sample. It does not prove live microphone accuracy, performance across accents, a physical experiment or a time saving.
 
 ## Where to look in the source
 

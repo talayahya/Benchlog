@@ -51,7 +51,7 @@ You can use **Or type what you would say** throughout. This exercises the same c
 
 Open **How it works**, then choose **Transcribe the sample on this device**. The app feeds [`public/examples/reading.wav`](public/examples/reading.wav), a synthetic Windows text-to-speech recording, through the actual local Whisper model. It opens an isolated example notebook, downloads the model if necessary and presents the resulting transcript as a pending reading. This is real model inference on synthetic audio, rather than a prerecorded transcript substituted for recognition.
 
-In a desktop Edge check, Whisper returned **“At one kilohertz, output 1.7 volts.”**, which became a pending **1000 Hz / 1.7 Vpp** reading. The guided correction to **1.68 Vpp** and subsequent confirmation added it to the notebook and plot. This checks one audio fixture, not live microphone accuracy or general recognition performance. See the [verification record](docs/verification.md).
+In a desktop Edge check, Whisper returned **“At 1 kilohertz, output 1.7 volts.”**, which became a pending **1000 Hz / 1.7 Vpp** reading. The guided correction to **1.68 Vpp** and subsequent confirmation added it to the notebook and plot. This checks one audio fixture, not live microphone accuracy or general recognition performance. See the [verification record](docs/verification.md).
 
 ## Supported commands
 
@@ -147,9 +147,9 @@ With the defaults, the calculated cutoff is approximately **1.59 kHz**. The expe
 
 ## Verification and limits
 
-The tests exercise the command engine and voice lifecycle, including parsing, validation, correction, confirmation, export behaviour and stale-callback handling. Run `npm test` for the current result. A successful build or mocked voice test does not establish real microphone accuracy.
+The tests exercise the command engine and voice lifecycle, including parsing, validation, correction, confirmation, export behaviour and stale-callback handling. All **91 tests passed** in the full-suite check on 18 November 2026; run `npm test` for the current result. A successful build or mocked voice test does not establish real microphone accuracy.
 
-The production build's local Whisper path was exercised with the bundled synthetic speech fixture in desktop Microsoft Edge. Its recognised values, correction and confirmation were observed in the interface. Live microphone lifecycle behaviour is covered with mocks; there has not been a live user microphone trial or a broad browser/device test. The distinction is recorded in [verification.md](docs/verification.md).
+The localhost production build's local Whisper path was exercised with the bundled synthetic speech fixture in desktop Microsoft Edge. The complete eight-step guided workflow produced six readings and one note. The downloaded CSV retained the original 1.7 Vpp phrase and its correction to 1.68 Vpp. A 390 × 844 browser viewport had no horizontal page overflow; this was an emulated viewport, not a physical mobile-device test. Live microphone lifecycle behaviour is covered with mocks; there has not been a live user microphone trial or a broad browser/device test. The distinction is recorded in [verification.md](docs/verification.md).
 
 This prototype has no completed lab user study, measured time-saving claim or benchmark across accents, noise conditions and devices. It does not check electrical safety or control equipment. Its history is inspectable local provenance, not an immutable audit system. Recognition can be wrong; review each proposed reading.
 

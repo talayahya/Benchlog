@@ -4,15 +4,18 @@ Checked during development on **18 November 2026**. This record distinguishes ob
 
 ## Observed browser workflow
 
-The production build was exercised in **desktop Microsoft Edge**. These observations concern that build and environment; they do not establish that a public deployment or every other browser has been checked.
+The production build was served on **localhost and exercised in desktop Microsoft Edge**. These observations concern that build and environment; they do not establish that a public deployment or every other browser has been checked.
 
 | Check                  | Observed result                                                                                                                                                    | What it establishes                                                                                                      |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
 | Bundled audio fixture  | `public/examples/reading.wav` is a synthetic Windows text-to-speech clip saying “At one kilohertz, output one point seven volts.”                                  | The input is a reproducible artificial speech sample, not audio from a physical lab experiment.                          |
-| Actual local inference | **How it works > Transcribe the sample on this device** ran the audio through the local Whisper model. The returned text was “At one kilohertz, output 1.7 volts.” | Audio-file decoding and real ASR inference worked for this clip. The result was not supplied as a hard-coded transcript. |
+| Actual local inference | **How it works > Transcribe the sample on this device** ran the audio through the local Whisper model. The returned text was “At 1 kilohertz, output 1.7 volts.” | Audio-file decoding and real ASR inference worked for this clip. The result was not supplied as a hard-coded transcript. |
 | Interpretation         | The result appeared as a pending **1000 Hz / 1.7 Vpp** reading.                                                                                                    | The recognised phrase reached the measurement interpreter with the expected units and values.                            |
 | Correction             | The guided correction changed the proposed output to **1.68 Vpp**.                                                                                                 | A supported correction changed the intended field before confirmation.                                                   |
 | Confirmation           | Saving the corrected reading updated the notebook and response graph.                                                                                              | The inspected flow kept the reading pending until confirmation and then presented the confirmed result.                  |
+| Complete example       | The eight-step guided workflow finished with six saved readings and one note. | The complete synthetic example worked through the visible interface in this environment. |
+| CSV export             | The downloaded CSV was opened and inspected. It retained the original 1.7 Vpp phrase and correction to 1.68 Vpp. | The downloaded record included provenance, not only the final value shown in the table. |
+| Narrow viewport        | At a 390 × 844 emulated browser viewport, `innerWidth` was 390 and document `scrollWidth` was 375. | No horizontal page overflow was observed at that viewport. This is not a physical mobile-device test. |
 
 The sample route opens an isolated synthetic notebook. The ordinary guided example buttons pass text to the interpreter; they are useful for exploring the command workflow but do not run speech recognition themselves. The audio-fixture route is deliberately separate so reviewers can tell those two kinds of demonstration apart.
 
@@ -25,7 +28,7 @@ npm test
 npm run build
 ```
 
-The test suite covers the implemented command engine and speech lifecycle using controlled inputs and mocked browser APIs. Relevant areas include number/unit handling, invalid inputs, pending versus confirmed records, corrections, export behaviour, cancellation and stale callbacks. The current test count and result should be taken from the runner output, since the suite may change.
+All **91 tests passed** in the full-suite check on 18 November 2026. The test suite covers the implemented command engine and speech lifecycle using controlled inputs and mocked browser APIs. Relevant areas include number/unit handling, invalid inputs, pending versus confirmed records, corrections, export behaviour, cancellation and stale callbacks. This is a dated result; use the runner output for the current count and result as the suite changes.
 
 Mocked microphone and speech-synthesis tests check the application's reactions to events. They do not measure how well a real microphone captures speech, whether a real browser recognises different voices, or how noisy a laboratory can be before the workflow degrades.
 

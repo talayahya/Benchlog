@@ -11,7 +11,7 @@ The idea grew from conversations about starting RC circuit experiments and becom
 
 ## What the prototype does
 
-A student sets the resistor, capacitor and fixed input amplitude for an RC low-pass sweep. They say, “At one kilohertz, output one point seven volts.” Benchlog presents the interpreted values and reads them back. “Correct output to one point six eight volts” changes the proposed reading; “save reading” commits it. The original phrase and correction remain inspectable.
+A student sets the resistor, capacitor and fixed input amplitude for an RC low-pass sweep. They say, “At one kilohertz, output one point seven volts.” Benchlog presents the interpreted values with optional spoken read-back. “Correct output to one point six eight volts” changes the proposed reading; “save reading” commits it. The original phrase and correction remain inspectable.
 
 Confirmed readings appear in a table and beside the ideal RC response curve. Observations are stored separately, and CSV, Markdown and JSON exports let the student keep a copy. The example notebook is explicitly synthetic and separate from personal records. The app records values supplied by a person; it does not operate instruments or measure the circuit itself.
 

@@ -448,12 +448,12 @@ export default function App() {
         <aside className="experiment">
           <p className="eyebrow">The experiment</p>
           <h1>
-            Keep your hands
+            Keep your hands{" "}
             <br />
             on the circuit.
           </h1>
           <p className="intro">
-            Read the instrument aloud.
+            Read the instrument aloud.{" "}
             <br />
             Confirm each value.
           </p>
