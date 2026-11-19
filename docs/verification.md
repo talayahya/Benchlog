@@ -43,6 +43,8 @@ These are three successful synthetic speech fixture checks, not a general speech
 
 On **19 November 2026**, the expanded suite passed **128 of 128 tests** across six files using `npm test -- --maxWorkers=1`. The twelve UI tests include the full investigation: pending readings cannot supply evidence, the prediction receipt is unchanged after the test reading arrives, and example data remains isolated from the live notebook. One worker avoids unnecessary peak memory use while the browser speech model is loaded. No test timeouts were increased.
 
+The final version adds a thirteenth UI regression: unsupported or incomplete recognised speech must not advance the guided example, while a valid retry uses its actual recognised values. **All 129 tests and the production build passed in the published GitHub workflow** for commit `aec9056`. [Final code verification and deployment](https://github.com/talayahya/Benchlog/actions/runs/44516453871). The hosted six-step example was checked again after deployment. The published MP4 player reports 140 seconds and 1280 × 720; the local file fully decodes as 3360 frames at 24 fps. Public and downloadable copies have the same SHA-256 hash.
+
 Run the current repository's checks:
 
 ```sh
