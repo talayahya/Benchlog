@@ -2,13 +2,14 @@
 
 A voice-led investigation for the electronics bench. Speak a reading, compare two explanations that fit it, then save their predictions before taking the test that tells them apart.
 
-Built for the **Hiya Voice AI Challenge, Productivity track**. The supported experiment is an ideal first-order RC low-pass filter with fixed sine-wave input. Benchlog records values read by a person, with correction and explicit confirmation. It does not connect to or operate lab instruments.
+Benchlog combines voice interaction, electronics and transparent experimental reasoning. The supported experiment is an ideal first-order RC low-pass filter with fixed sine-wave input. Benchlog records values read by a person, with correction and explicit confirmation. It does not connect to or operate lab instruments.
 
 - Repository: [github.com/talayahya/Benchlog](https://github.com/talayahya/Benchlog/)
 - Live demo: [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/)
 - [Watch the narrated demonstration](https://talayahya.github.io/Benchlog/demo.html): animated model explanations, real app captures, English captions and chapter navigation. All test readings and speech are labelled as synthetic.
 - [Inspect the exported investigation record](docs/investigation-example.json)
 - [One-page project explanation](docs/submission.md)
+- [Download the project overview](docs/Benchlog_Project_Overview.pdf)
 - [AI assistance disclosure](ai.md)
 - [Research and design decisions](docs/research.md)
 - [Investigation prior art and scientific limits](docs/investigation-prior-art.md)
@@ -211,4 +212,4 @@ The earlier static edit and its renderer remain in the history as an iteration. 
 
 ## Credits
 
-Interface and code: an AI-assisted project developed for Tala Yahya's Hiya challenge. See [ai.md](ai.md) for the full disclosure. IBM Plex Sans and IBM Plex Mono are used under the SIL Open Font License. The local speech model and dependencies retain their own licences; see their bundled or upstream licence files. Film music and synthetic narration are separately credited in [video credits](docs/video/credits.md).
+Interface and code: an AI-assisted project developed for Tala Yahya's portfolio. See [ai.md](ai.md) for the full disclosure. IBM Plex Sans and IBM Plex Mono are used under the SIL Open Font License. The local speech model and dependencies retain their own licences; see their bundled or upstream licence files. Film music and synthetic narration are separately credited in [video credits](docs/video/credits.md).

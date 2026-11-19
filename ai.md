@@ -4,7 +4,7 @@
 
 Benchlog was developed with substantial assistance from **OpenAI ChatGPT/Codex**. Tala asked for a complete voice-driven prototype based on her interests, with company/product research, a deliberate visual design and a GitHub-ready codebase.
 
-The assistant selected the electronics-notebook concept using the supplied context about Tala's RC circuit studies and interest in lab instruments. It researched Hiya's public materials, voice-interface guidance, speech-recognition options, technical reference material and design/accessibility sources. It also implemented the React/TypeScript interface, command engine, audio adapters, storage, charts, tests and documentation.
+The assistant selected the electronics-notebook concept using the supplied context about Tala's RC circuit studies and interest in lab instruments. It researched voice-interface guidance, speech-recognition options, technical reference material and design/accessibility sources. It also implemented the React/TypeScript interface, command engine, audio adapters, storage, charts, tests and documentation.
 
 Parallel Codex agents assisted with company/design research, the deterministic measurement engine, the browser voice adapter, tests and supporting documents. Their work was integrated and reviewed by the coordinating assistant. No claim is made that independent agents replace human review.
 

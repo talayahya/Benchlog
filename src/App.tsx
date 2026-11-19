@@ -1127,7 +1127,7 @@ export default function App() {
           </section>
           <footer className="workspace-footer">
             <span>Built around the bench, by Tala Yahya.</span>
-            <span>Hiya Voice AI Challenge · Productivity</span>
+            <span>Voice-led electronics investigation</span>
           </footer>
         </section>
       </main>

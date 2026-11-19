@@ -19,7 +19,7 @@ These are primary sources for people's opinions. They support identifiable conce
 
 **A roughly 140-second, caption-led walkthrough using real app captures, with a brief audible synthetic test utterance and no continuous narrator or background music.**
 
-The voice interaction must be heard at least once because this is a voice challenge. Label that clip **Synthetic test voice**. The recording demonstrates a test fixture being transcribed, not Tala speaking, a live microphone trial or a physical measurement. If the edit is a sequence of screenshots, call it **Edited capture walkthrough**, not a continuous screen recording. A synthetic test voice is appropriate evidence of the audio path; it is not presented as a human endorsement or a voice clone.
+The voice interaction must be heard at least once because spoken measurement capture is central to the product. Label that clip **Synthetic test voice**. The recording demonstrates a test fixture being transcribed, not Tala speaking, a live microphone trial or a physical measurement. If the edit is a sequence of screenshots, call it **Edited capture walkthrough**, not a continuous screen recording. A synthetic test voice is appropriate evidence of the audio path; it is not presented as a human endorsement or a voice clone.
 
 The story is the investigation, not a tour of every button:
 

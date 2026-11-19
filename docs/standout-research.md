@@ -1,33 +1,31 @@
 # Making Benchlog more memorable
 
-Research and independent critique, **19 November 2026**. This records the original notebook assessment and the conditions for reassessing the later investigation feature. It is not a prediction of Hiya's score or a ranking against submissions we have not seen. A conditional target is not a verified final score.
+Research and editorial critique, **19 November 2026**. This records the original notebook assessment and the conditions for reassessing the later investigation feature. The scores are subjective checkpoints for prioritising improvements to this project, not external ratings or rankings against other products. A conditional target is not a verified final score.
 
 ## What the forum evidence actually supports
 
-The useful pattern is **specific understanding made visible**, rather than visual novelty or a longer feature list. These are self-selected discussions, sometimes involving self-described hiring managers. Their identities, hiring outcomes and representativeness are not independently established. Comments are evidence of those people's views, not an industry consensus.
+The useful pattern is **specific understanding made visible**, rather than visual novelty or a longer feature list. These are self-selected discussions about public projects and demonstrations. Comments are evidence of those people's views, not a representative survey or an industry consensus.
 
 1. In **Hacker News' discussion of Show HN becoming crowded**, one recurring criticism is that rapidly generated projects give their authors little to say about the problem itself. The interesting part of a project discussion is the insight gained by spending time on a particular problem. This supports a visible design decision or failure-recovery story, rather than merely mentioning AI use or development speed. [Actual discussion](https://news.ycombinator.com/item?id=47045804)
-2. In **r/cscareerquestions**, a self-described hiring manager values real users, changes made in response to feedback, a release history and working, documented software. Other commenters say projects are often not reviewed at all, or that an ordinary application is enough if the candidate can explain its tradeoffs. The defensible lesson is to make the work easy to try and discuss, not to promise that extra features will win an interview. [Actual discussion](https://www.reddit.com/r/cscareerquestions/comments/1airt2j/what_are_some_personal_projects_i_can_do_that/)
-3. In **Ask HN: Which personal projects got you hired?**, anecdotes range from a programming tool to water-engineering software and a humorous bot. Their variety argues against one supposedly impressive stack or project genre. Domain relevance and an interesting explanation can matter, but these stories cannot establish causation or a hiring success rate. [Actual discussion](https://news.ycombinator.com/item?id=31393215)
-4. In the **Snapify Show HN discussion**, a reviewer asks to see the central interaction early, understand the product without scrolling, and try it without confusing sign-in barriers. Another reports a video playback issue. For Benchlog, a visible, playable demonstration and a working public prototype matter more than a dramatic introduction. [Actual discussion](https://news.ycombinator.com/item?id=36790947)
+2. In the **Snapify Show HN discussion**, a reviewer asks to see the central interaction early, understand the product without scrolling, and try it without confusing sign-in barriers. Another reports a video playback issue. For Benchlog, a visible, playable demonstration and a working public prototype matter more than a dramatic introduction. [Actual discussion](https://news.ycombinator.com/item?id=36790947)
 
-As an editorial cross-check, HN's own Show HN guidance asks for something people can try, with a personal reason for making it; it explicitly does not require complexity or slickness. This is guidance for that forum, not Hiya's assessment rubric. [Show HN guidance](https://news.ycombinator.com/showhn.html)
+As an editorial cross-check, HN's own Show HN guidance asks for something people can try, with a personal reason for making it; it explicitly does not require complexity or slickness. This is guidance for that forum, not a universal measure of software quality. [Show HN guidance](https://news.ycombinator.com/showhn.html)
 
-## Baseline assessment: 77/100
+## Baseline editorial assessment: 77/100 (historical)
 
-This is an intentionally provisional editorial rubric. The weights are my judgement; the score is neither measured user satisfaction nor a recruiter rating. It assesses the product and evidence, not Tala's ability to explain or modify the implementation in an interview.
+This is an intentionally provisional editorial rubric. The weights are editorial judgement; the score is not measured user satisfaction or an independent product evaluation. It assesses the prototype and available evidence at that point in development.
 
-| Criterion                                  |  Weight | Current | Reason                                                                                                                                                                                                                    |
-| ------------------------------------------ | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Specific problem and appropriate voice use |      20 |      17 | Taking readings while holding probes is a clear context. The need is plausible, but no actual bench observation has validated the workflow.                                                                               |
-| Voice interaction and recovery             |      20 |      16 | Recognition, explicit confirmation, correction, units and provenance form a complete flow. Spoken language is bounded, and live microphone performance remains untested with users.                                       |
-| Engineering and reviewability              |      20 |      17 | Deterministic interpretation, tests, a worker-based local recogniser, deployment and honest documentation are substantial. The current verification record reports 94 passing tests, not general recognition reliability. |
-| Distinctive domain value                   |      15 |      12 | An electronics notebook is more specific than a generic assistant. Its main output currently stops at recording and a familiar theoretical-versus-measured plot.                                                          |
-| Presentation and immediate demonstrability |      15 |      12 | The interface and guided example are coherent. There is a genuine local-ASR audio sample, but not yet a finished narrative video showing the complete distinctive benefit.                                                |
-| Evidence beyond synthetic examples         |      10 |       3 | Hosted checks and a real model inference are useful; no live human microphone trial, physical circuit measurement or user study is established.                                                                           |
-| **Total**                                  | **100** |  **77** | **A strong, reviewable prototype with room for deeper experimental judgement and stronger demonstration evidence.**                                                                                                       |
+| Criterion                                  |  Weight | Baseline | Reason                                                                                                                                                                                                                               |
+| ------------------------------------------ | ------: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Specific problem and appropriate voice use |      20 |       17 | Taking readings while holding probes is a clear context. The need is plausible, but no actual bench observation has validated the workflow.                                                                                          |
+| Voice interaction and recovery             |      20 |       16 | Recognition, explicit confirmation, correction, units and provenance form a complete flow. Spoken language is bounded, and live microphone performance remains untested with users.                                                  |
+| Engineering and reviewability              |      20 |       17 | Deterministic interpretation, tests, a worker-based local recogniser, deployment and honest documentation are substantial. At this baseline, the verification record reported 94 passing tests, not general recognition reliability. |
+| Distinctive domain value                   |      15 |       12 | An electronics notebook is more specific than a generic assistant. Its main output currently stops at recording and a familiar theoretical-versus-measured plot.                                                                     |
+| Presentation and immediate demonstrability |      15 |       12 | The interface and guided example are coherent. There is a genuine local-ASR audio sample, but not yet a finished narrative video showing the complete distinctive benefit.                                                           |
+| Evidence beyond synthetic examples         |      10 |        3 | Hosted checks and a real model inference are useful; no live human microphone trial, physical circuit measurement or user study is established.                                                                                      |
+| **Total**                                  | **100** |   **77** | **A strong, reviewable prototype with room for deeper experimental judgement and stronger demonstration evidence.**                                                                                                                  |
 
-The most important deficit cannot be fixed by changing fonts: no one has yet shown that this is better than a notebook or spreadsheet at a real bench. That should remain explicit. The app can still be a convincing challenge prototype without pretending otherwise.
+The most important deficit cannot be fixed by changing fonts: no one has yet shown that this is better than a notebook or spreadsheet at a real bench. That should remain explicit. The app can still be a useful, inspectable portfolio prototype without pretending otherwise.
 
 ## Three improvements considered after the baseline
 
@@ -81,7 +79,7 @@ The finished package was reassessed after the real three-fixture Whisper check, 
 
 The presentation score is **14/15**, one point below the earlier conditional target. The app, write-up and restrained video form a coherent package, but the video is an edited still-capture walkthrough rather than a continuous interaction recording. Some source text is softer than an ideal high-resolution recording. It would be misleading to award perfect presentation solely because the file is finished.
 
-The strongest differentiator is now the complete experimental question: two explanations fit one observation, predictions are fixed, and a new test can leave either, both or neither supported. The next meaningful improvement is real student and bench validation. This score is not Hiya's rubric, a hiring probability, a global novelty judgement or a ranking against unseen candidates.
+The strongest differentiator is now the complete experimental question: two explanations fit one observation, predictions are fixed, and a new test can leave either, both or neither supported. The next meaningful improvement is real student and bench validation. This score is an editorial assessment, not an external endorsement, a global novelty judgement or a ranking against other products.
 
 ## Revision after presentation feedback
 
@@ -89,7 +87,7 @@ The user found the first film too static and unexplained. That is direct evidenc
 
 The replacement is a narrated mini-presentation: a concrete opening question, a checked reading, two animated model curves, a separating test, fixed predictions, a new result and an explicit limit. It includes readable teaching labels, meaningful transitions, licensed music, captions and chapter navigation. The [redesign research](video-redesign-research.md) explains the change in direction.
 
-These are substantive presentation improvements, but a higher candidate-ranking score cannot be inferred from them. No competing submissions have been reviewed, and polished presentation does not create evidence from actual student use. The previous 83-point total is retained as a record of that earlier subjective judgement, not recertified as an objective current score. A final listening and viewing review by the intended presenter is still worthwhile.
+These are substantive presentation improvements, but a higher overall quality score cannot be inferred from them alone. Polished presentation does not create evidence from actual student use. The previous 83-point total is retained as a record of that earlier subjective judgement, not recertified as an objective current score. A final listening and viewing review by the intended presenter is still worthwhile.
 
 ## Avoid spending the remaining time on
 
@@ -100,4 +98,4 @@ These are substantive presentation improvements, but a higher candidate-ranking 
 - Inflated time-saving, accuracy, accessibility or “first ever” claims.
 - A video that hides all recognition delays or uses typed commands while implying live speech.
 
-Sources were selected for relevant discussion and contrasting views, not post counts, promotional success claims or supposed recruiter consensus. No new app code was changed as part of this research pass.
+Sources were selected for relevant discussion and contrasting views, not post counts, promotional success claims or supposed consensus. No new app code was changed as part of this research pass.

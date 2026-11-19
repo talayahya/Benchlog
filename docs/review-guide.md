@@ -1,6 +1,6 @@
 # Understanding Benchlog
 
-This is a study guide for Tala's Hiya review. It explains the design in ordinary language and gives a short demonstration plan. It is not a script for claiming unaided authorship. AI assistance is recorded in `../ai.md`; understand and test the behaviour before discussing it as your work.
+This is a guide to understanding, demonstrating and extending Benchlog. It explains the design in ordinary language and gives a short demonstration plan. AI assistance is recorded in `../ai.md`; descriptions of the project should match its implemented behaviour and the evidence from testing it.
 
 ## The idea in a few sentences
 
@@ -146,7 +146,7 @@ That fixture was checked in desktop Edge against the production build. Whisper p
 
 **Why no login or cloud database?** They are unnecessary for the single-user prototype and would add account management and data-handling work. Cross-device collaboration is a possible later feature, not an implied capability now.
 
-**What did AI do?** Read the actual `ai.md` and describe that involvement accurately. The invitation welcomes AI assistance. The review is an opportunity to show that you understand the resulting code and can identify its limitations, rather than memorise an impressive-sounding explanation.
+**What did AI do?** The `ai.md` disclosure records the assistance used in developing the project. Read it alongside the implementation, trace the resulting behaviour and identify its limitations. Being able to explain and modify the code matters more than memorising an impressive-sounding description.
 
 ## Failure cases to understand
 

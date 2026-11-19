@@ -2,19 +2,15 @@
 
 Research checked on 18 November 2026. This is a decision record, not a claim that a colour, typeface or implementation has been scientifically proven to be the best choice.
 
-## Brief and audience
+## Product goals and intended users
 
-The Hiya Voice AI Challenge invitation asks for a working voice-driven prototype, a one-page explanation, source code, setup instructions and an `ai.md` disclosure. AI-assisted coding is expressly encouraged. The key product test is whether voice helps at a moment when a keyboard would be inconvenient. These requirements come from the invitation; the private submission link is deliberately excluded from this repository.
+Benchlog is an independent portfolio project exploring whether spoken capture can make a student's electronics notebook more useful at the bench. Its goals are to preserve confirmed measurements, make corrections inspectable and explain the reason for a follow-up experiment. The public prototype, source, setup instructions and AI-assistance disclosure make those choices available to inspect and test.
 
-**Chosen track: Productivity.** Benchlog is a voice notebook for a student characterising an RC filter. The starting situation comes from Tala's interest in electronics and her recent work on RC simulations and lab instruments. It does not imply that she has already carried out a physical validation study of this product.
+The intended user is a student characterising an RC filter. The starting situation comes from work on RC simulations and learning to use lab instruments. It does not imply that a physical validation study of this product has already been carried out.
 
 The useful moment is holding probes and looking at an oscilloscope while recording a reading. A user can say the reading, hear a short interpretation, correct it and confirm it without repeatedly reaching for a keyboard. This is a product hypothesis to test with students, not an established time-saving result. Manual entry remains useful when a lab is noisy, speech recognition fails or a user prefers typing.
 
-Hiya lists **Serve, Own it, Lead, Improve and Do** among its values. A small complete workflow, recoverable mistakes and clearly stated limits are our interpretation of how to demonstrate care and ownership; Hiya has not published that mapping as a scoring rubric. [Hiya careers](https://www.hiya.com/company/careers)
-
-Hiya describes its mission in terms of making voice more secure and productive. Benchlog addresses the productivity side, while keeping correction and data provenance visible. It is an independent challenge prototype, not a Hiya product or an integration with its call-protection services. [Hiya about](https://www.hiya.com/company/about)
-
-The Engineering Intern (London), Summer 2027 listing retrieved during this research emphasises iteration, ownership, operational responsibility and collaboration. It also describes later project-based technical discussion, including debugging and extending the candidate's project. The response here is to keep the architecture explainable and the workflow small enough to test. These are published signals, not a claim to know the interviewers' private preferences. Job pages may change or disappear after applications close. [Official internship listing](https://jobs.ashbyhq.com/hiya/046212dd-41e3-46e7-a8ba-48cff5a7f947)
+The scope stays narrow enough to explain and test: a supported utterance becomes a pending reading, an explicit confirmation adds it to the record, and calculated expectations remain separate from observations. A prospective comparison then asks which next measurement would distinguish two stated mathematical explanations. The usefulness of that complete workflow still needs testing with students.
 
 ## Why this experiment
 
@@ -42,7 +38,7 @@ There is widespread practitioner criticism of interchangeable gradient heroes, g
 
 ### Reddit and developer-forum cross-check
 
-Public discussions were checked again on 18 November, including the actual thread text. These are self-selected opinions, not a representative survey or evidence that a particular font reduces hiring chances.
+Public discussions were checked again on 18 November, including the actual thread text. These are self-selected opinions, not a representative survey or evidence that a particular font determines product quality.
 
 - In a current **r/webdesign** discussion, recurring complaints include redundant small uppercase labels above headings, repeated boxed sections, empty promotional copy and typography that fails to communicate hierarchy. Other participants point out that these patterns existed before AI and can serve a real purpose. The useful test is whether an element earns its space, not whether it appears on a forbidden-style list. [Reddit discussion](https://www.reddit.com/r/webdesign/comments/1xsqm9l/are_there_any_dead_giveaways_of_an_ai_designed/)
 - A **Hacker News** discussion about recurring AI designs criticises pages left unedited and repeated card structures, but also notes the long history of ordinary template sameness. This supports reviewing the actual result rather than treating tool choice as a quality test. [Hacker News: repeated AI designs](https://news.ycombinator.com/item?id=50287388)

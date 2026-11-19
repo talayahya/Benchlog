@@ -1,7 +1,7 @@
-# Benchlog
+# Benchlog: project overview
 
-**A spoken reading. Two explanations. One revealing test.**  
-Tala Yahya · Hiya Voice AI Challenge · Productivity
+**Voice-assisted electronics experiments**  
+Tala Yahya · Project overview
 
 ## The problem
 

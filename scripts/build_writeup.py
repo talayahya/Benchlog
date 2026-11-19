@@ -1,4 +1,4 @@
-"""Build the one-page challenge write-up from docs/submission.md.
+"""Build the one-page project overview from docs/submission.md.
 
 Run: python scripts/build_writeup.py
 Requires: reportlab
@@ -21,10 +21,10 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "docs" / "submission.md"
-OUTPUT = ROOT / "docs" / "Benchlog_Hiya_Challenge_One_Page.pdf"
+OUTPUT = ROOT / "docs" / "Benchlog_Project_Overview.pdf"
 REPOSITORY = "https://github.com/talayahya/Benchlog"
 PROTOTYPE = "https://talayahya.github.io/Benchlog/"
-SUBTITLE = "A spoken reading. Two explanations. One revealing test."
+SUBTITLE = "Voice-assisted electronics experiments"
 
 INK = colors.HexColor("#172B32")
 SECONDARY = colors.HexColor("#51646A")
@@ -80,10 +80,10 @@ def draw_page(canvas, doc):
     left = doc.leftMargin
     right = width - doc.rightMargin
     canvas.saveState()
-    canvas.setTitle("Benchlog - Hiya Voice AI Challenge")
+    canvas.setTitle("Benchlog - Project Overview")
     canvas.setAuthor("Tala Yahya")
-    canvas.setSubject("A voice-led RC circuit investigation; Productivity track")
-    canvas.setKeywords("Benchlog, voice, RC filter, productivity, AI-assisted prototype")
+    canvas.setSubject("Voice-assisted electronics measurements and testable RC circuit explanations")
+    canvas.setKeywords("Benchlog, voice, RC filter, electronics, AI-assisted prototype")
 
     canvas.setFillColor(INK)
     canvas.setFont(BOLD_FONT, 35)
@@ -97,7 +97,7 @@ def draw_page(canvas, doc):
     canvas.drawString(left, height - 95, SUBTITLE)
     canvas.setFillColor(SECONDARY)
     canvas.setFont(BODY_FONT, 9.5)
-    canvas.drawString(left, height - 116, "Tala Yahya  /  Hiya Voice AI Challenge  /  Productivity")
+    canvas.drawString(left, height - 116, "Tala Yahya  /  Project overview")
     canvas.setStrokeColor(LINE)
     canvas.setLineWidth(0.7)
     canvas.line(left, height - 132, right, height - 132)
@@ -128,7 +128,7 @@ def build():
         str(OUTPUT), pagesize=A4,
         leftMargin=47, rightMargin=47,
         topMargin=146, bottomMargin=80,
-        title="Benchlog - Hiya Voice AI Challenge", author="Tala Yahya"
+        title="Benchlog - Project Overview", author="Tala Yahya"
     )
     heading = ParagraphStyle(
         "Section", fontName=BOLD_FONT, fontSize=11.3, leading=14,
@@ -157,7 +157,7 @@ def build():
         reader = PdfReader(OUTPUT)
         print(f"Pages: {len(reader.pages)}")
         if len(reader.pages) != 1:
-            raise RuntimeError("The challenge write-up must fit on one page; revise layout or content.")
+            raise RuntimeError("The project overview must fit on one page; revise layout or content.")
     except ImportError:
         print("Install pypdf or run pdfinfo to verify the single-page requirement.")
 
