@@ -1,0 +1,204 @@
+{
+  "voice": "en-GB-SoniaNeural",
+  "synthetic_narration": true,
+  "source": "https://github.com/rany2/edge-tts",
+  "scene_count": 7,
+  "scenes": [
+    {
+      "scene": "01",
+      "title": "A number is not an explanation",
+      "clips": [
+        {
+          "id": "01",
+          "text": "You're holding two probes, watching a signal, and trying to keep a useful record. You read a small output. But what does that number mean, and what should you measure next?",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "01.wav",
+          "mp3": "01.mp3",
+          "words": "01.words.json",
+          "duration": 10.92,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.391345748849132,
+          "rms_dbfs": -18.88920202690447,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 10.92
+    },
+    {
+      "scene": "02",
+      "title": "Voice becomes evidence",
+      "clips": [
+        {
+          "id": "02a",
+          "text": "Benchlog starts with a spoken reading. This synthetic clip goes through the actual local Whisper model.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "02a.wav",
+          "mp3": "02a.mp3",
+          "words": "02a.words.json",
+          "duration": 6.912,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.6572074440986295,
+          "rms_dbfs": -19.460250159003685,
+          "clipped_samples": 0
+        },
+        {
+          "id": "02b",
+          "text": "The interpreted number stays pending, so you can check or correct it before saving. That confirmed observation becomes the starting evidence.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "02b.wav",
+          "mp3": "02b.mp3",
+          "words": "02b.words.json",
+          "duration": 8.928,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.320628554474608,
+          "rms_dbfs": -19.77299720725185,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 15.84
+    },
+    {
+      "scene": "03",
+      "title": "Two stories fit",
+      "clips": [
+        {
+          "id": "03",
+          "text": "This is a resistor-capacitor filter, with the input held at two volts peak to peak. One explanation is that the circuit responds more slowly. The other keeps the expected response but scales every reading down. Benchlog fits both models to the same starting observation. Explaining a known reading is not the same as predicting a new one.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "03.wav",
+          "mp3": "03.mp3",
+          "words": "03.words.json",
+          "duration": 21.888,
+          "sample_rate": 24000,
+          "peak_dbfs": -4.921075045294531,
+          "rms_dbfs": -19.03696463708848,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 21.888
+    },
+    {
+      "scene": "04",
+      "title": "Choose the revealing test",
+      "clips": [
+        {
+          "id": "04",
+          "text": "The app compares their predictions across a bounded set of frequencies. At eighty hertz, one predicts about one point seven eight volts, and the other predicts zero point one nine seven. Those are very different answers. Benchlog saves the predictions before the next measurement, so the explanation cannot quietly change afterwards.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "04.wav",
+          "mp3": "04.mp3",
+          "words": "04.words.json",
+          "duration": 20.472,
+          "sample_rate": 24000,
+          "peak_dbfs": -4.494509098809895,
+          "rms_dbfs": -19.589283557711784,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 20.472
+    },
+    {
+      "scene": "05",
+      "title": "Put the prediction to a test",
+      "clips": [
+        {
+          "id": "05a",
+          "text": "Now comes the new observation.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "05a.wav",
+          "mp3": "05a.mp3",
+          "words": "05a.words.json",
+          "duration": 2.424,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.94879783950709,
+          "rms_dbfs": -17.141802112504987,
+          "clipped_samples": 0
+        },
+        {
+          "id": "05b",
+          "text": "After confirmation, one point seven eight volts is compared with the predictions already saved. It is close to the slower-response model, and far from the scale-only example. The app keeps the original reading, the proposed test and the result together.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "05b.wav",
+          "mp3": "05b.mp3",
+          "words": "05b.words.json",
+          "duration": 15.84,
+          "sample_rate": 24000,
+          "peak_dbfs": -4.0409354414649385,
+          "rms_dbfs": -19.513040717040415,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 18.264
+    },
+    {
+      "scene": "06",
+      "title": "Keep the unanswered question",
+      "clips": [
+        {
+          "id": "06",
+          "text": "That does not prove which component changed. Resistance and capacitance appear as a product, so this model cannot separate them. And these are only two possibilities. In this separate example, neither prediction matches. The app keeps that uncertainty instead of forcing a diagnosis.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "06.wav",
+          "mp3": "06.mp3",
+          "words": "06.words.json",
+          "duration": 19.224,
+          "sample_rate": 24000,
+          "peak_dbfs": -4.910804724199131,
+          "rms_dbfs": -19.31881073058857,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 19.224
+    },
+    {
+      "scene": "07",
+      "title": "A reason for the next experiment",
+      "clips": [
+        {
+          "id": "07",
+          "text": "This is the idea behind Benchlog: turn a spoken observation into a reason for the next experiment. Speech recognition uses AI; the predictions and comparisons are transparent code. You can inspect the receipt, try the prototype and read the tests. The next step is a real student bench trial.",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "07.wav",
+          "mp3": "07.mp3",
+          "words": "07.words.json",
+          "duration": 19.992,
+          "sample_rate": 24000,
+          "peak_dbfs": -4.890765910984736,
+          "rms_dbfs": -19.439242777568317,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 19.992
+    }
+  ],
+  "total_narration_seconds": 126.60000000000001,
+  "input_clip_insertions": [
+    {
+      "scene": "02",
+      "after": "02a",
+      "file": "public/examples/investigation-anchor.wav"
+    },
+    {
+      "scene": "04",
+      "before": "04",
+      "file": "public/examples/investigation-question.wav"
+    },
+    {
+      "scene": "05",
+      "after": "05a",
+      "file": "public/examples/investigation-result.wav"
+    }
+  ],
+  "base_dir": ".",
+  "input_clip_base_dir": "../../..",
+  "path_resolution": "Resolve wav, mp3 and words paths against this manifest's directory plus base_dir. Resolve input_clip_insertions.file against this manifest's directory plus input_clip_base_dir."
+}

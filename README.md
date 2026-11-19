@@ -6,7 +6,7 @@ Built for the **Hiya Voice AI Challenge, Productivity track**. The supported exp
 
 - Repository: [github.com/talayahya/Benchlog](https://github.com/talayahya/Benchlog/)
 - Live demo: [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/)
-- [Watch the 2:20 walkthrough](https://talayahya.github.io/Benchlog/benchlog-demo.mp4): caption-led real app captures with three synthetic speech clips, clearly labelled.
+- [Watch the narrated demonstration](https://talayahya.github.io/Benchlog/demo.html): animated model explanations, real app captures, English captions and chapter navigation. All test readings and speech are labelled as synthetic.
 - [Inspect the exported investigation record](docs/investigation-example.json)
 - [One-page project explanation](docs/submission.md)
 - [AI assistance disclosure](ai.md)
@@ -89,9 +89,9 @@ In a desktop Edge check, Whisper returned **“At 1 kilohertz, output 1.7 volts.
 | Add an observation                               | `Note: the trace looks noisy`                         |
 | Summarise saved records                          | `Summarise the session`                               |
 | Suggest a point from the RC model                | `Suggest next frequency`                              |
-| Fit two explanations and save a prospective test | `What would tell these apart?`                       |
-| Review the saved comparison and its outcome      | `Review the investigation`                           |
-| Explicitly replace the current comparison        | `New comparison`                                     |
+| Fit two explanations and save a prospective test | `What would tell these apart?`                        |
+| Review the saved comparison and its outcome      | `Review the investigation`                            |
+| Explicitly replace the current comparison        | `New comparison`                                      |
 | Get command help                                 | `Help`                                                |
 
 The interpreter supports bounded English commands, not unrestricted conversation. Numerical fields need units. It distinguishes `mHz` from `MHz`, rejects RMS and peak-only readings, and does not guess a missing unit. A changed input amplitude must be made through experiment setup rather than silently mixed into the current sweep.
@@ -142,19 +142,19 @@ Microphone / local audio file
 
 Speech recognition uses pretrained AI. Parsing, validation, confirmations, history, calculations and exports use conventional TypeScript. There is no general-purpose LLM deciding what a measurement should be.
 
-| File                                | Responsibility                                                                       |
-| ----------------------------------- | ------------------------------------------------------------------------------------ |
-| `src/engine.ts`                     | Command interpretation, unit validation, notebook transitions, RC maths and exports. |
+| File                                | Responsibility                                                                                     |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `src/engine.ts`                     | Command interpretation, unit validation, notebook transitions, RC maths and exports.               |
 | `src/investigation.ts`              | Two constrained model fits, candidate selection, saved-receipt validation and held-out comparison. |
-| `src/InvestigationPanel.tsx`        | Rival predictions, proposed test, comparison outcome and inspectable receipt. |
-| `src/voice.ts`                      | Browser recognition lifecycle and spoken read-back.                                  |
-| `src/localVoice.ts`                 | Microphone capture and silence-delimited local speech turns.                         |
-| `src/localSpeech.ts`                | Clip validation, decoding, mono 16kHz conversion and worker requests.                |
-| `src/whisper.worker.ts`             | Local speech model download and inference.                                           |
-| `src/storage.ts`                    | Versioned browser storage and downloadable files.                                    |
-| `src/App.tsx`                       | Application state and interaction.                                                   |
-| `src/Plot.tsx`, `src/Schematic.tsx` | The response plot and circuit diagram.                                               |
-| `tests/`                            | Automated checks of the implemented behaviour.                                       |
+| `src/InvestigationPanel.tsx`        | Rival predictions, proposed test, comparison outcome and inspectable receipt.                      |
+| `src/voice.ts`                      | Browser recognition lifecycle and spoken read-back.                                                |
+| `src/localVoice.ts`                 | Microphone capture and silence-delimited local speech turns.                                       |
+| `src/localSpeech.ts`                | Clip validation, decoding, mono 16kHz conversion and worker requests.                              |
+| `src/whisper.worker.ts`             | Local speech model download and inference.                                                         |
+| `src/storage.ts`                    | Versioned browser storage and downloadable files.                                                  |
+| `src/App.tsx`                       | Application state and interaction.                                                                 |
+| `src/Plot.tsx`, `src/Schematic.tsx` | The response plot and circuit diagram.                                                             |
+| `tests/`                            | Automated checks of the implemented behaviour.                                                     |
 
 ## Model assumptions
 
@@ -203,10 +203,12 @@ Useful next work is to test the workflow with students at the bench, measure err
 
 ### Reproduce the video
 
-The walkthrough is an edited sequence of real app captures, with the same three synthetic audio fixtures used in the local-Whisper checks. It has captions and no artificial narrator, music or fabricated UI interaction. It is not a continuous recording or a latency benchmark. The [manifest](docs/video/demo-manifest.json) specifies every supplied capture, crop, duration and audio cue.
+The revised film combines actual app captures with animated circuit/model illustrations, stock SoniaNeural narration, the three synthetic input fixtures and licensed instrumental music. It is an edited explanation, not a continuous recording, instrument experiment or latency benchmark. See the [narration script](docs/video/seminar-narration.md), [timeline manifest](docs/video/seminar-manifest.json), [production research](docs/video-redesign-research.md) and [credits](docs/video/credits.md).
 
-With Python, Pillow, imageio-ffmpeg and the Windows Segoe UI/Consolas fonts available, run `python scripts/build_demo_video.py --check` to validate the assets, then `python scripts/build_demo_video.py --output public/benchlog-demo.mp4` to render. Frames are streamed to ffmpeg rather than saved as a large image sequence. The output is 1280 × 720, 24 fps, 140 seconds.
+With Python, Pillow, imageio-ffmpeg and the Windows Segoe UI/Consolas fonts available, run `python scripts/build_seminar_video.py --frames-only` to inspect the storyboard. Then render with `python scripts/build_seminar_video.py --output public/benchlog-demo.mp4`. A short `--preview 20:50` produces a review segment. Frames are streamed to ffmpeg rather than saved as a large image sequence. The narration timing controls scene lengths, including pauses around the actual input clips. Music retains its separate CC BY 4.0 licence and attribution.
+
+The earlier static edit and its renderer remain in the history as an iteration. The public MP4 and watch page are the revised narrated version.
 
 ## Credits
 
-Interface and code: an AI-assisted project developed for Tala Yahya's Hiya challenge. See [ai.md](ai.md) for the full disclosure. IBM Plex Sans and IBM Plex Mono are used under the SIL Open Font License. The local speech model and dependencies retain their own licences; see their bundled or upstream licence files.
+Interface and code: an AI-assisted project developed for Tala Yahya's Hiya challenge. See [ai.md](ai.md) for the full disclosure. IBM Plex Sans and IBM Plex Mono are used under the SIL Open Font License. The local speech model and dependencies retain their own licences; see their bundled or upstream licence files. Film music and synthetic narration are separately credited in [video credits](docs/video/credits.md).

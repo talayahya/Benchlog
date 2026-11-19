@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A narrated Benchlog demonstration: one reading, two explanations, one useful next experiment."
+    />
+    <title>Benchlog · The next experiment</title>
+    <link rel="icon" href="favicon.svg" />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #172b32;
+        background: #f8faf8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      main {
+        max-width: 1080px;
+        padding: 30px 24px 48px;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 36px;
+      }
+      a {
+        color: #066a63;
+        text-underline-offset: 4px;
+      }
+      .brand {
+        font-size: 26px;
+        font-weight: 700;
+        color: #172b32;
+        text-decoration: none;
+      }
+      h1 {
+        font-size: clamp(30px, 4vw, 46px);
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+        margin: 0 0 12px;
+      }
+      p {
+        line-height: 1.6;
+      }
+      .intro {
+        color: #51646a;
+        max-width: 700px;
+        margin-bottom: 24px;
+        font-size: 18px;
+      }
+      video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #172b32;
+        border: 1px solid #d2ddda;
+      }
+      .chapters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 18px 0 24px;
+      }
+      button {
+        cursor: pointer;
+        font: inherit;
+        color: #172b32;
+        background: white;
+        border: 1px solid #b9cbc5;
+        border-radius: 3px;
+        padding: 8px 12px;
+      }
+      button:hover {
+        background: #e2efeb;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid #b73f27;
+        outline-offset: 4px;
+      }
+      .note {
+        font-size: 14px;
+        color: #51646a;
+        max-width: 850px;
+      }
+      .resources {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+        border-top: 1px solid #d2ddda;
+        padding-top: 24px;
+        margin-top: 24px;
+      }
+      footer {
+        border-top: 1px solid #d2ddda;
+        margin-top: 32px;
+        padding-top: 18px;
+        font-size: 12px;
+        color: #51646a;
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="brand" href="./">benchlog.</a
+        ><a href="https://github.com/talayahya/Benchlog"
+          >Source &amp; evidence</a
+        >
+      </header>
+      <h1>A reason for the next experiment.</h1>
+      <p class="intro">
+        One reading can fit two explanations. See how a spoken observation
+        becomes a checked record, a prediction and a useful next test.
+      </p>
+      <video
+        controls
+        preload="metadata"
+        poster="benchlog-demo-poster.jpg"
+        playsinline
+        aria-label="Benchlog narrated demonstration"
+      >
+        <source src="benchlog-demo.mp4" type="video/mp4" />
+        <track
+          kind="captions"
+          src="benchlog-demo.vtt"
+          srclang="en"
+          label="English"
+        />
+        Your browser cannot play this video.
+        <a href="benchlog-demo.mp4">Download the MP4</a>.
+      </video>
+      <nav class="chapters" aria-label="Video chapters">
+        <button type="button" data-time="0">0:00 The question</button>
+        <button type="button" data-time="12.27">0:12 Speak and confirm</button>
+        <button type="button" data-time="34.379">0:34 Two explanations</button>
+        <button type="button" data-time="57.617">0:58 Choose a test</button>
+        <button type="button" data-time="81.993">1:22 New evidence</button>
+        <button type="button" data-time="106.591">1:47 The limits</button>
+        <button type="button" data-time="127.165">2:07 What's next</button>
+      </nav>
+      <p class="note">
+        An illustrated demonstration using real app captures and synthetic
+        readings, input speech and narration. The curves explain the
+        mathematical models; they are not oscilloscope traces. This is an edited
+        walkthrough, not a continuous recording or physical bench trial. English
+        captions are available in the player.
+      </p>
+      <div class="resources">
+        <a href="./">Try the working prototype</a>
+        <a href="benchlog-demo.mp4" download="Tala_Yahya_Benchlog_Demo.mp4"
+          >Download the video</a
+        >
+        <a
+          href="https://github.com/talayahya/Benchlog/blob/main/docs/video/seminar-narration.md"
+          >Read the script</a
+        >
+        <a href="https://github.com/talayahya/Benchlog/blob/main/ai.md"
+          >AI assistance disclosure</a
+        >
+      </div>
+      <footer>
+        Music: “Signal to Noise” by
+        <a href="https://www.scottbuckley.com.au/library/signal-to-noise/"
+          >Scott Buckley</a
+        >, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.
+        No Piano Melody mix, excerpted, faded and lowered beneath speech. Stock
+        synthetic narration: SoniaNeural. An AI-assisted project for Tala
+        Yahya's Hiya Voice AI Challenge.
+      </footer>
+    </main>
+    <script>
+      const player = document.querySelector("video");
+      document.querySelectorAll("[data-time]").forEach((button) => {
+        button.addEventListener("click", () => {
+          player.currentTime = Number(button.dataset.time);
+          player.play().catch(() => player.focus());
+        });
+      });
+    </script>
+  </body>
+</html>

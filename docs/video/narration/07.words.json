@@ -1,0 +1,247 @@
+[
+  {
+    "text": "This",
+    "start": 0.1375,
+    "duration": 0.2125
+  },
+  {
+    "text": "is",
+    "start": 0.3625,
+    "duration": 0.1
+  },
+  {
+    "text": "the",
+    "start": 0.475,
+    "duration": 0.125
+  },
+  {
+    "text": "idea",
+    "start": 0.6125,
+    "duration": 0.4625
+  },
+  {
+    "text": "behind",
+    "start": 1.0875,
+    "duration": 0.4375
+  },
+  {
+    "text": "Benchlog",
+    "start": 1.5375,
+    "duration": 0.5875
+  },
+  {
+    "text": "turn",
+    "start": 2.45,
+    "duration": 0.275
+  },
+  {
+    "text": "a",
+    "start": 2.7375,
+    "duration": 0.0625
+  },
+  {
+    "text": "spoken",
+    "start": 2.8125,
+    "duration": 0.425
+  },
+  {
+    "text": "observation",
+    "start": 3.25,
+    "duration": 0.725
+  },
+  {
+    "text": "into",
+    "start": 3.9875,
+    "duration": 0.3
+  },
+  {
+    "text": "a",
+    "start": 4.3,
+    "duration": 0.0625
+  },
+  {
+    "text": "reason",
+    "start": 4.375,
+    "duration": 0.475
+  },
+  {
+    "text": "for",
+    "start": 4.8625,
+    "duration": 0.1125
+  },
+  {
+    "text": "the",
+    "start": 4.9875,
+    "duration": 0.0875
+  },
+  {
+    "text": "next",
+    "start": 5.0875,
+    "duration": 0.3
+  },
+  {
+    "text": "experiment",
+    "start": 5.4,
+    "duration": 0.8125
+  },
+  {
+    "text": "Speech",
+    "start": 6.6,
+    "duration": 0.425
+  },
+  {
+    "text": "recognition",
+    "start": 7.0375,
+    "duration": 0.725
+  },
+  {
+    "text": "uses",
+    "start": 7.775,
+    "duration": 0.35
+  },
+  {
+    "text": "AI",
+    "start": 8.1375,
+    "duration": 0.475
+  },
+  {
+    "text": "the",
+    "start": 8.95,
+    "duration": 0.0875
+  },
+  {
+    "text": "predictions",
+    "start": 9.05,
+    "duration": 0.6875
+  },
+  {
+    "text": "and",
+    "start": 9.75,
+    "duration": 0.1125
+  },
+  {
+    "text": "comparisons",
+    "start": 9.875,
+    "duration": 0.825
+  },
+  {
+    "text": "are",
+    "start": 10.7125,
+    "duration": 0.1
+  },
+  {
+    "text": "transparent",
+    "start": 10.825,
+    "duration": 0.7375
+  },
+  {
+    "text": "code",
+    "start": 11.575,
+    "duration": 0.475
+  },
+  {
+    "text": "You",
+    "start": 12.45,
+    "duration": 0.125
+  },
+  {
+    "text": "can",
+    "start": 12.5875,
+    "duration": 0.15
+  },
+  {
+    "text": "inspect",
+    "start": 12.75,
+    "duration": 0.4875
+  },
+  {
+    "text": "the",
+    "start": 13.25,
+    "duration": 0.1
+  },
+  {
+    "text": "receipt",
+    "start": 13.3625,
+    "duration": 0.55
+  },
+  {
+    "text": "try",
+    "start": 14.2,
+    "duration": 0.2125
+  },
+  {
+    "text": "the",
+    "start": 14.425,
+    "duration": 0.1125
+  },
+  {
+    "text": "prototype",
+    "start": 14.55,
+    "duration": 0.7625
+  },
+  {
+    "text": "and",
+    "start": 15.325,
+    "duration": 0.1375
+  },
+  {
+    "text": "read",
+    "start": 15.475,
+    "duration": 0.225
+  },
+  {
+    "text": "the",
+    "start": 15.7125,
+    "duration": 0.1
+  },
+  {
+    "text": "tests",
+    "start": 15.825,
+    "duration": 0.6375
+  },
+  {
+    "text": "The",
+    "start": 16.8625,
+    "duration": 0.1125
+  },
+  {
+    "text": "next",
+    "start": 16.9875,
+    "duration": 0.325
+  },
+  {
+    "text": "step",
+    "start": 17.325,
+    "duration": 0.375
+  },
+  {
+    "text": "is",
+    "start": 17.7125,
+    "duration": 0.15
+  },
+  {
+    "text": "a",
+    "start": 17.875,
+    "duration": 0.075
+  },
+  {
+    "text": "real",
+    "start": 17.9625,
+    "duration": 0.325
+  },
+  {
+    "text": "student",
+    "start": 18.3,
+    "duration": 0.475
+  },
+  {
+    "text": "bench",
+    "start": 18.7875,
+    "duration": 0.3125
+  },
+  {
+    "text": "trial",
+    "start": 19.1125,
+    "duration": 0.5125
+  }
+]

@@ -6,16 +6,16 @@ Checked during development on **18 November 2026**. This record distinguishes ob
 
 The production build was exercised on **localhost and the published GitHub Pages site in desktop Microsoft Edge**. The public deployment at [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/) was verified on 18 November 2026 after GitHub Actions passed its tests, build and deployment. These observations concern that environment; they do not establish support in every browser.
 
-| Check                  | Observed result                                                                                                                                                    | What it establishes                                                                                                      |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| Bundled audio fixture  | `public/examples/reading.wav` is a synthetic Windows text-to-speech clip saying “At one kilohertz, output one point seven volts.”                                  | The input is a reproducible artificial speech sample, not audio from a physical lab experiment.                          |
+| Check                  | Observed result                                                                                                                                                  | What it establishes                                                                                                      |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Bundled audio fixture  | `public/examples/reading.wav` is a synthetic Windows text-to-speech clip saying “At one kilohertz, output one point seven volts.”                                | The input is a reproducible artificial speech sample, not audio from a physical lab experiment.                          |
 | Actual local inference | **How it works > Transcribe the sample on this device** ran the audio through the local Whisper model. The returned text was “At 1 kilohertz, output 1.7 volts.” | Audio-file decoding and real ASR inference worked for this clip. The result was not supplied as a hard-coded transcript. |
-| Interpretation         | The result appeared as a pending **1000 Hz / 1.7 Vpp** reading.                                                                                                    | The recognised phrase reached the measurement interpreter with the expected units and values.                            |
-| Correction             | The guided correction changed the proposed output to **1.68 Vpp**.                                                                                                 | A supported correction changed the intended field before confirmation.                                                   |
-| Confirmation           | Saving the corrected reading updated the notebook and response graph.                                                                                              | The inspected flow kept the reading pending until confirmation and then presented the confirmed result.                  |
-| Complete example       | The eight-step guided workflow finished with six saved readings and one note. | The complete synthetic example worked through the visible interface in this environment. |
-| CSV export             | The downloaded CSV was opened and inspected. It retained the original 1.7 Vpp phrase and correction to 1.68 Vpp. | The downloaded record included provenance, not only the final value shown in the table. |
-| Narrow viewport        | At a 390 × 844 emulated browser viewport, `innerWidth` was 390 and document `scrollWidth` was 375. | No horizontal page overflow was observed at that viewport. This is not a physical mobile-device test. |
+| Interpretation         | The result appeared as a pending **1000 Hz / 1.7 Vpp** reading.                                                                                                  | The recognised phrase reached the measurement interpreter with the expected units and values.                            |
+| Correction             | The guided correction changed the proposed output to **1.68 Vpp**.                                                                                               | A supported correction changed the intended field before confirmation.                                                   |
+| Confirmation           | Saving the corrected reading updated the notebook and response graph.                                                                                            | The inspected flow kept the reading pending until confirmation and then presented the confirmed result.                  |
+| Complete example       | The eight-step guided workflow finished with six saved readings and one note.                                                                                    | The complete synthetic example worked through the visible interface in this environment.                                 |
+| CSV export             | The downloaded CSV was opened and inspected. It retained the original 1.7 Vpp phrase and correction to 1.68 Vpp.                                                 | The downloaded record included provenance, not only the final value shown in the table.                                  |
+| Narrow viewport        | At a 390 × 844 emulated browser viewport, `innerWidth` was 390 and document `scrollWidth` was 375.                                                               | No horizontal page overflow was observed at that viewport. This is not a physical mobile-device test.                    |
 
 The sample route opens an isolated synthetic notebook. The ordinary guided example buttons pass text to the interpreter; they are useful for exploring the command workflow but do not run speech recognition themselves. The audio-fixture route is deliberately separate so reviewers can tell those two kinds of demonstration apart.
 
@@ -27,11 +27,11 @@ An earlier hosted check caught a lifecycle bug: backgrounding the tab cancelled 
 
 The new investigation was exercised in desktop Edge against the local development build. Each of the three bundled synthetic WAV files passed through the actual local Whisper recogniser, with these observed transcripts:
 
-| Fixture | Recognised transcript | Observed behaviour |
-| --- | --- | --- |
-| `investigation-anchor.wav` | “At 10 kilohertz, output 31 millivolts.” | Proposed 10000 Hz / 0.031 Vpp, then saved only after confirmation. |
-| `investigation-question.wav` | “What would tell these apart?” | Fitted both models to the confirmed anchor and froze an 80 Hz test with predictions 1.7772862244 Vpp and 0.1969815275 Vpp. |
-| `investigation-result.wav` | “At 80 Hz, output 1.78 volts.” | Proposed 80 Hz / 1.78 Vpp, then compared it with the frozen predictions only after confirmation. |
+| Fixture                      | Recognised transcript                    | Observed behaviour                                                                                                         |
+| ---------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `investigation-anchor.wav`   | “At 10 kilohertz, output 31 millivolts.” | Proposed 10000 Hz / 0.031 Vpp, then saved only after confirmation.                                                         |
+| `investigation-question.wav` | “What would tell these apart?”           | Fitted both models to the confirmed anchor and froze an 80 Hz test with predictions 1.7772862244 Vpp and 0.1969815275 Vpp. |
+| `investigation-result.wav`   | “At 80 Hz, output 1.78 volts.”           | Proposed 80 Hz / 1.78 Vpp, then compared it with the frozen predictions only after confirmation.                           |
 
 The [actual exported JSON](investigation-example.json) preserves the sequence: anchor confirmed at 11:25:14 UTC, predictions created at 11:25:28 UTC, and test reading confirmed at 11:26:29 UTC. Both measurement records are labelled `demo`. The JSON was downloaded through the app's export control; it was not constructed as a substitute for the UI run.
 
@@ -43,7 +43,7 @@ These are three successful synthetic speech fixture checks, not a general speech
 
 On **19 November 2026**, the expanded suite passed **128 of 128 tests** across six files using `npm test -- --maxWorkers=1`. The twelve UI tests include the full investigation: pending readings cannot supply evidence, the prediction receipt is unchanged after the test reading arrives, and example data remains isolated from the live notebook. One worker avoids unnecessary peak memory use while the browser speech model is loaded. No test timeouts were increased.
 
-The final version adds a thirteenth UI regression: unsupported or incomplete recognised speech must not advance the guided example, while a valid retry uses its actual recognised values. **All 129 tests and the production build passed in the published GitHub workflow** for commit `aec9056`. [Final code verification and deployment](https://github.com/talayahya/Benchlog/actions/runs/44516453871). The hosted six-step example was checked again after deployment. The published MP4 player reports 140 seconds and 1280 × 720; the local file fully decodes as 3360 frames at 24 fps. Public and downloadable copies have the same SHA-256 hash.
+The final version adds a thirteenth UI regression: unsupported or incomplete recognised speech must not advance the guided example, while a valid retry uses its actual recognised values. **All 129 tests and the production build passed in the published GitHub workflow** for commit `aec9056`. [Final code verification and deployment](https://github.com/talayahya/Benchlog/actions/runs/44516453871). The hosted six-step example was checked again after deployment. The first-cut MP4 was verified at 140 seconds and 1280 × 720. It has now been superseded by the narrated demonstration below.
 
 Run the current repository's checks:
 
@@ -73,3 +73,17 @@ Browser-speech mode can use a remote recognition provider and is disclosed separ
 - Automated checks and numerical contrast choices do not constitute a complete accessibility audit.
 
 The next useful validation is a small real bench trial: observe the hands-occupied workflow, capture recognition and correction failures, and compare the same task with a spreadsheet. Keep those observations separate from synthetic examples and from the ideal mathematical model.
+
+## Narrated film revision, 19 November 2026
+
+The first video was too static for the intended presentation. The replacement was reviewed first as a 30-second segment covering pending/confirmed app captures and animated model explanations, then as sampled frames from the completed film, including the prediction receipt, result, neither-model case and ending. A separate editorial review checked labels, crops and numerical consistency. This was visual/timing review and automated audio validation, not a claim of human listening approval.
+
+The final file fully decodes: **3564 frames, 148.51 seconds, 1280 × 720 at 24 fps**, H.264 video and 48 kHz stereo AAC. Measured AAC programme loudness is **−16.03 LUFS**, with **−3.36 dBTP** true peak. Narration and the three input fixtures have separate timeline slots. The music is ducked under speech. There are **34 punctuated English caption blocks**, at most two lines per block, in an optional embedded subtitle track and standalone SRT/VTT files.
+
+The model illustrations use the same fitted parameters as `investigation-example.json`. At 80 Hz the plotted values are 1.7772862243780279 Vpp and 0.19698152745867004 Vpp. The synthetic test reading and separate neither-model example remain clearly distinguished.
+
+The [watch page](https://talayahya.github.io/Benchlog/demo.html) adds chapter controls, optional captions, a script link and the music credit. The revised MP4 is also available at the original public video URL and in the downloadable package. Local public/download copies match by SHA-256:
+
+`0d844c924360c4be3fc31840796799f7eb50b9ae966cdda18ef2afb02e9c5dc0`
+
+No application logic changed for the video revision. The corrected deployment workflow's tests and build passed for `b6f733b` before the media update. A final viewing and listening check by Tala is advisable before recruiter submission; no submission has been made by this video-production task.

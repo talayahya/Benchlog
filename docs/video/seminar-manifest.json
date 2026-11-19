@@ -1,0 +1,123 @@
+{
+  "version": 1,
+  "base_dir": "../..",
+  "scenes": [
+    {
+      "kind": "opening",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/01.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "capture",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/02a.wav",
+          "type": "narration",
+          "gap": 0.25
+        },
+        {
+          "file": "public/examples/investigation-anchor.wav",
+          "type": "input",
+          "gap": 0.25
+        },
+        {
+          "file": "docs/video/narration/02b.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "models",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/03.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "test",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "public/examples/investigation-question.wav",
+          "type": "input",
+          "gap": 0.25
+        },
+        {
+          "file": "docs/video/narration/04.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "result",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/05a.wav",
+          "type": "narration",
+          "gap": 0.25
+        },
+        {
+          "file": "public/examples/investigation-result.wav",
+          "type": "input",
+          "gap": 0.25
+        },
+        {
+          "file": "docs/video/narration/05b.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "limits",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/06.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    },
+    {
+      "kind": "closing",
+      "min_duration": 0,
+      "audio": [
+        {
+          "file": "docs/video/narration/07.wav",
+          "type": "narration",
+          "gap": 0.25
+        }
+      ],
+      "lead": 0.4,
+      "tail": 0.7
+    }
+  ],
+  "music": "music/signal-to-noise-excerpt.mp3"
+}

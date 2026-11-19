@@ -1,0 +1,50 @@
+{
+  "voice": "en-GB-SoniaNeural",
+  "synthetic_narration": true,
+  "source": "https://github.com/rany2/edge-tts",
+  "scene_count": 7,
+  "scenes": [
+    {
+      "scene": "01",
+      "title": "A number is not an explanation",
+      "clips": [
+        {
+          "id": "01",
+          "text": "You're holding two probes, watching a signal, and trying to keep a useful record. You read a small output. But what does that number mean, and what should you measure next?",
+          "voice": "en-GB-SoniaNeural",
+          "rate": "+0%",
+          "wav": "01.wav",
+          "mp3": "01.mp3",
+          "words": "01.words.json",
+          "duration": 10.92,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.391345748849132,
+          "rms_dbfs": -18.888402131717086,
+          "clipped_samples": 0
+        }
+      ],
+      "duration": 10.92
+    }
+  ],
+  "total_narration_seconds": 10.92,
+  "input_clip_insertions": [
+    {
+      "scene": "02",
+      "after": "02a",
+      "file": "public/examples/investigation-anchor.wav"
+    },
+    {
+      "scene": "04",
+      "before": "04",
+      "file": "public/examples/investigation-question.wav"
+    },
+    {
+      "scene": "05",
+      "after": "05a",
+      "file": "public/examples/investigation-result.wav"
+    }
+  ],
+  "base_dir": ".",
+  "input_clip_base_dir": "../../..",
+  "path_resolution": "Resolve wav, mp3 and words paths against this manifest's directory plus base_dir. Resolve input_clip_insertions.file against this manifest's directory plus input_clip_base_dir."
+}

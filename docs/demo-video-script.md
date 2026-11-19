@@ -1,85 +1,41 @@
-# Benchlog investigation demo
+# Benchlog narrated demonstration
 
-Completed: **2 minutes 20 seconds**, caption-led with no artificial narrator or music. This is the final two-model investigation story, replacing the earlier cutoff-bracketing storyboard. The paragraphs below explain each scene's meaning; they are not a voiceover. The [final manifest](video/demo-manifest.json) specifies the exact captions, real app captures, crops and three synthetic input audio cues. The exported MP4 is 1280 × 720 at 24 fps.
+The revised film explains one complete investigation in roughly two and a half minutes. It replaces the first static, caption-led edit. The final spoken wording is in [seminar-narration.md](video/seminar-narration.md); the [manifest](video/seminar-manifest.json) derives each scene's length from the recorded narration and input clips.
 
-## Recording and editing
+## Story
 
-The completed video uses real captures from the running application. This disclosure remains visible throughout:
+| Chapter           | What is explained                                                                                  | What the audience sees                                                                                               |
+| ----------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| The question      | A low output is a reading, not an explanation.                                                     | A large 31 mV reading and animated resistor-capacitor schematic.                                                     |
+| Speak and confirm | Speech becomes a pending interpretation before it becomes evidence.                                | Actual local-Whisper result, close-up of confirmation and the saved record.                                          |
+| Two explanations  | A slower circuit response and a constant scale change can both fit one observation.                | Calculated model curves draw separately through the same 10 kHz / 31 mV point. The input is held at 2 Vpp.           |
+| Choose a test     | Look where the two predictions differ, then preserve the predictions before collecting the answer. | The test marker moves to 80 Hz; the predictions are 1.78 Vpp and 0.197 Vpp. Then the actual saved receipt appears.   |
+| New evidence      | Compare a new confirmed reading with predictions that were already fixed.                          | The synthetic 80 Hz / 1.78 Vpp input, followed by the actual comparison result.                                      |
+| The limits        | Matching one model does not identify which component changed. Neither model may fit.               | R times C explanation and the separately labelled 0.8 Vpp example, which matches neither prediction.                 |
+| What's next       | A spoken observation becomes a reason for the next experiment.                                     | Speak, confirm, predict, test; readable prototype/repository links; real student trials as the next validation step. |
 
-**Edited app capture sequence · synthetic test voice and readings**
+## Visual and audio treatment
 
-The synthetic audio must pass through the actual local Whisper recogniser. Capture its returned transcript, not a manually substituted result. Label any shortened download or inference wait **Wait shortened**. Do not imply that the edited duration is measured latency.
+Actual application captures establish what the prototype does. Educational schematic and curve animations explain why it does it. These two visual sources remain explicitly labelled. Curves are calculated from the implemented equations, not invented instrument traces. Readable teaching statements, sequential reveals and short dissolves connect the ideas.
 
-Use only the actual synthetic input clips as audio where they explain the demonstrated transcription. No generic narrator or background music is needed. Keep real app captures still and readable for most of their duration, with at most a few purposeful crops to make important numbers legible. Avoid invented cursor actions, fake instrument traces or footage suggesting a physical experiment occurred. `scripts/build_demo_video.py` streams the supplied captures into a video; it does not operate or fabricate the application.
+The narrator is the stock synthetic British SoniaNeural voice, not Tala. The three audible input clips are the same synthetic files successfully passed through local Whisper for the documented application checks. They occupy separate gaps in the narration. Licensed instrumental music is lowered under speech and faded at the ends. Source and licence details are in [credits.md](video/credits.md).
 
-## 00:00–00:14 · The question
+The film is not a continuous live recording or a measured latency demonstration. It does not show a physical circuit trial, calibrated uncertainty, a proven fault, or a world-first method. The opening and recurring footer disclose the synthetic readings and speech.
 
-**Capture:** the actual investigation workspace with the initial circuit setup. Introduce the two possible explanations without showing a conclusion.
+## Numerical cross-check
 
-**Editorial context:**
+Nominal R = 1000 ohms, C = 100 nanofarads, fixed input = 2 Vpp. The confirmed synthetic anchor is 0.031 Vpp at 10000 Hz.
 
-A low output doesn't explain itself. Has the filter changed, or is the measurement scaled? Benchlog helps you choose a test that can tell those stories apart, while keeping your hands on the circuit.
+- Anchor gain = 0.031 / 2 = 0.0155.
+- Fitted time constant = sqrt(1/gain^2 - 1) / (2 pi f), approximately 1.0267 ms.
+- Fitted scale with nominal time constant = gain times sqrt(1 + (2 pi f R C)^2), approximately 0.098615.
+- At 80 Hz the first model predicts 1.777286 Vpp; the second predicts 0.196982 Vpp.
+- The new synthetic result is 1.78 Vpp. The separate neither-model example is 0.8 Vpp.
+- The comparison band is an illustrative engineering rule, not a statistical confidence interval or calibrated instrument uncertainty.
+- The selected frequency maximises the implemented difference over a bounded finite grid, not every possible experiment.
 
-## 00:14–00:33 · Speak an observation
+## Reproducibility and review
 
-**Capture:** start local transcription of the new synthetic audio fixture. Show the actual returned transcript, pending **10 kHz / 31 mV** reading, then confirmation. Show the 2 Vpp configured input.
+`scripts/build_seminar_video.py` renders the educational graphics and supplied captures, mixes the audio and emits the film. It does not operate or fabricate the app. Source assets, word timings, captions and the edit manifest are retained in `docs/video/`. The watch page supplies captions and chapter navigation. The first 30-second review segment covered a real pending/confirmed capture and the two-curve explanation before the full render.
 
-**Editorial context:**
-
-Here's a repeatable example using synthetic speech and readings. On-device Whisper hears ten kilohertz, output thirty-one millivolts. I check and confirm that interpretation before it enters the notebook. The app records what I report; it does not control an instrument.
-
-## 00:33–00:55 · One reading, two explanations
-
-**Capture:** compare the fitted time-constant model and fitted scale model. Both pass through the original observation. Keep the original reading visible.
-
-**Editorial context:**
-
-That reading fits two explanations. One model has a larger RC time constant. The other keeps the original filter shape but scales the output down. Both are fitted to the same starting observation, so matching it is not evidence that either explanation is right.
-
-## 00:55–01:18 · Decide before measuring
-
-**Capture:** the actual **“What would tell these apart?”** result shows the chosen **80 Hz**, both predictions, assumptions and the receipt automatically saved by the command. The full candidate grid is in the exported JSON, rather than shown as an invented interface element.
-
-**Editorial context:**
-
-I ask what would tell them apart. Benchlog compares their predictions across a bounded set of frequencies and suggests eighty hertz. Here, they predict one point seven eight volts and zero point one nine seven volts. Benchlog automatically saves those predictions before the next reading.
-
-## 01:18–01:40 · Test the prediction
-
-**Capture:** the frozen receipt remains visible. Add and confirm the synthetic **80 Hz / 1.78 Vpp** observation. Show the actual comparison with the saved predictions. Do not regenerate either prediction after this value arrives.
-
-**Editorial context:**
-
-Now I enter one point seven eight volts. The comparison uses the predictions saved earlier, not models refitted to the answer. This result is closer to the larger-time-constant example. The record keeps the original observation, the proposed test and its outcome together.
-
-## 01:40–02:00 · Explain the limit
-
-**Capture:** show the result's assumption and non-identifiability explanation. Then show the actual neither-model outcome for **0.8 Vpp at 80 Hz**, explicitly captioned **Separate synthetic example** so it is not mistaken for the earlier 1.78 Vpp observation.
-
-**Editorial context:**
-
-That still doesn't identify a faulty capacitor. Resistance and capacitance appear as a product in this model, so either could change the time constant. These are two examples, not every possible cause. A result that fits neither should remain unexplained rather than being forced into an answer.
-
-## 02:00–02:20 · Evidence you can inspect
-
-**Capture:** the saved in-app prediction receipt, then the complete result closeup with the live app and repository addresses in the caption. The video does not pretend the receipt is the exported file; reviewers can separately inspect `docs/investigation-example.json`. End on the real app, without fictitious metrics or claims of physical validation.
-
-**Editorial context:**
-
-Benchlog turns a spoken observation into a testable question. Speech recognition uses AI; the predictions and comparisons are transparent code. The repository includes tests, setup instructions and an AI-use disclosure. The next step is trying it at a real bench with students and realistic background noise.
-
-## Mathematics to verify before capture
-
-For the illustrative setup, nominal R = 1000 ohms, C = 100 nanofarads, input = 2 Vpp, and the confirmed seed observation is 0.031 Vpp at 10000 Hz.
-
-- Let g = observed output / configured input = 0.0155.
-- Fitted time constant: tau = sqrt(1/g^2 - 1) / (2 pi f), approximately 1.0267 milliseconds.
-- Fitted output scale with nominal time constant: scale = g sqrt(1 + (2 pi f R C)^2), approximately 0.098615.
-- At 80 Hz the fitted time-constant model predicts approximately **1.777 Vpp**.
-- At 80 Hz the fitted scale model predicts approximately **0.19698 Vpp**.
-- The synthetic test observation is **1.78 Vpp**.
-- The predictions must be frozen before the test observation is committed.
-- Do not call the comparison a probability, statistical confidence, calibrated diagnosis or proof of a specific faulty component.
-- The choice of 80 Hz depends on the implemented, disclosed candidate grid. Do not claim it is globally optimal.
-
-The three audible clips are the actual synthetic files passed through local Whisper for the captured run: the 10 kHz / 31 mVpp anchor, the comparison question, and the 80 Hz / 1.78 Vpp follow-up. Their video onsets are 15, 34 and 79 seconds. The video is an edited capture sequence, not a continuous recording or a measured latency demonstration.
+The review verifies values, labels, frame sequence, audio timing and decoding. Automated audio statistics do not replace a human listening review. Tala should watch and listen to the complete film before submitting it.

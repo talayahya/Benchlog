@@ -17,15 +17,15 @@ As an editorial cross-check, HN's own Show HN guidance asks for something people
 
 This is an intentionally provisional editorial rubric. The weights are my judgement; the score is neither measured user satisfaction nor a recruiter rating. It assesses the product and evidence, not Tala's ability to explain or modify the implementation in an interview.
 
-| Criterion | Weight | Current | Reason |
-| --- | ---: | ---: | --- |
-| Specific problem and appropriate voice use | 20 | 17 | Taking readings while holding probes is a clear context. The need is plausible, but no actual bench observation has validated the workflow. |
-| Voice interaction and recovery | 20 | 16 | Recognition, explicit confirmation, correction, units and provenance form a complete flow. Spoken language is bounded, and live microphone performance remains untested with users. |
-| Engineering and reviewability | 20 | 17 | Deterministic interpretation, tests, a worker-based local recogniser, deployment and honest documentation are substantial. The current verification record reports 94 passing tests, not general recognition reliability. |
-| Distinctive domain value | 15 | 12 | An electronics notebook is more specific than a generic assistant. Its main output currently stops at recording and a familiar theoretical-versus-measured plot. |
-| Presentation and immediate demonstrability | 15 | 12 | The interface and guided example are coherent. There is a genuine local-ASR audio sample, but not yet a finished narrative video showing the complete distinctive benefit. |
-| Evidence beyond synthetic examples | 10 | 3 | Hosted checks and a real model inference are useful; no live human microphone trial, physical circuit measurement or user study is established. |
-| **Total** | **100** | **77** | **A strong, reviewable prototype with room for deeper experimental judgement and stronger demonstration evidence.** |
+| Criterion                                  |  Weight | Current | Reason                                                                                                                                                                                                                    |
+| ------------------------------------------ | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Specific problem and appropriate voice use |      20 |      17 | Taking readings while holding probes is a clear context. The need is plausible, but no actual bench observation has validated the workflow.                                                                               |
+| Voice interaction and recovery             |      20 |      16 | Recognition, explicit confirmation, correction, units and provenance form a complete flow. Spoken language is bounded, and live microphone performance remains untested with users.                                       |
+| Engineering and reviewability              |      20 |      17 | Deterministic interpretation, tests, a worker-based local recogniser, deployment and honest documentation are substantial. The current verification record reports 94 passing tests, not general recognition reliability. |
+| Distinctive domain value                   |      15 |      12 | An electronics notebook is more specific than a generic assistant. Its main output currently stops at recording and a familiar theoretical-versus-measured plot.                                                          |
+| Presentation and immediate demonstrability |      15 |      12 | The interface and guided example are coherent. There is a genuine local-ASR audio sample, but not yet a finished narrative video showing the complete distinctive benefit.                                                |
+| Evidence beyond synthetic examples         |      10 |       3 | Hosted checks and a real model inference are useful; no live human microphone trial, physical circuit measurement or user study is established.                                                                           |
+| **Total**                                  | **100** |  **77** | **A strong, reviewable prototype with room for deeper experimental judgement and stronger demonstration evidence.**                                                                                                       |
 
 The most important deficit cannot be fixed by changing fonts: no one has yet shown that this is better than a notebook or spreadsheet at a real bench. That should remain explicit. The app can still be a convincing challenge prototype without pretending otherwise.
 
@@ -63,25 +63,33 @@ The final direction is a complete two-model investigation: fit two constrained e
 
 If the implementation, final checks and honest demonstration are verified, a defensible target under the **same baseline rubric is 84/100**. This remains conditional until that evidence is complete. It replaces the earlier 86-point target; more synthetic examples do not increase the evidence-of-real-use score.
 
-| Criterion | Current | Conditional target |
-| --- | ---: | ---: |
-| Problem and voice use | 17/20 | 17/20 |
-| Voice interaction and recovery | 16/20 | 17/20 |
-| Engineering and reviewability | 17/20 | 18/20 |
-| Distinctive domain value | 12/15 | 14/15 |
-| Presentation and demonstration | 12/15 | 15/15 |
-| Evidence beyond synthetic examples | 3/10 | 3/10 |
-| **Total** | **77/100** | **84/100** |
+| Criterion                          |    Current | Conditional target |
+| ---------------------------------- | ---------: | -----------------: |
+| Problem and voice use              |      17/20 |              17/20 |
+| Voice interaction and recovery     |      16/20 |              17/20 |
+| Engineering and reviewability      |      17/20 |              18/20 |
+| Distinctive domain value           |      12/15 |              14/15 |
+| Presentation and demonstration     |      12/15 |              15/15 |
+| Evidence beyond synthetic examples |       3/10 |               3/10 |
+| **Total**                          | **77/100** |         **84/100** |
 
 The evidence score stays low because more synthetic cases and a better video do not create real users or bench results. Voice gains one point for the coherent spoken investigation route; engineering gains one for independently checked fits and evidence-preserving state transitions; domain value gains two for the prospective test; presentation gains three only if the completed video and app actually demonstrate that benefit clearly. A 90-plus score would require stronger actual-use evidence and convincing live operation, not merely more polished packaging. The defensible claim is a distinctive combination tailored to a specific student workflow.
 
-## Final editorial assessment: 83/100
+## First-cut editorial assessment: 83/100 (historical)
 
 The finished package was reassessed after the real three-fixture Whisper check, prospective JSON export, alternate neither-model outcome, responsive review and completed 140-second video. Under the same subjective rubric, the result is **83/100**, comprising **17 + 17 + 18 + 14 + 14 + 3**. The final automated count and build result are recorded in [verification.md](verification.md).
 
 The presentation score is **14/15**, one point below the earlier conditional target. The app, write-up and restrained video form a coherent package, but the video is an edited still-capture walkthrough rather than a continuous interaction recording. Some source text is softer than an ideal high-resolution recording. It would be misleading to award perfect presentation solely because the file is finished.
 
 The strongest differentiator is now the complete experimental question: two explanations fit one observation, predictions are fixed, and a new test can leave either, both or neither supported. The next meaningful improvement is real student and bench validation. This score is not Hiya's rubric, a hiring probability, a global novelty judgement or a ranking against unseen candidates.
+
+## Revision after presentation feedback
+
+The user found the first film too static and unexplained. That is direct evidence that its **14/15 presentation rating was too generous** for the intended audience. Finishing an export and checking its facts did not establish a strong demonstration.
+
+The replacement is a narrated mini-presentation: a concrete opening question, a checked reading, two animated model curves, a separating test, fixed predictions, a new result and an explicit limit. It includes readable teaching labels, meaningful transitions, licensed music, captions and chapter navigation. The [redesign research](video-redesign-research.md) explains the change in direction.
+
+These are substantive presentation improvements, but a higher candidate-ranking score cannot be inferred from them. No competing submissions have been reviewed, and polished presentation does not create evidence from actual student use. The previous 83-point total is retained as a record of that earlier subjective judgement, not recertified as an objective current score. A final listening and viewing review by the intended presenter is still worthwhile.
 
 ## Avoid spending the remaining time on
 

@@ -1,0 +1,287 @@
+[
+  {
+    "text": "This",
+    "start": 0.1375,
+    "duration": 0.25
+  },
+  {
+    "text": "is",
+    "start": 0.4,
+    "duration": 0.125
+  },
+  {
+    "text": "a",
+    "start": 0.5375,
+    "duration": 0.075
+  },
+  {
+    "text": "resistor-capacitor",
+    "start": 0.625,
+    "duration": 1.0
+  },
+  {
+    "text": "filter",
+    "start": 1.6375,
+    "duration": 0.45
+  },
+  {
+    "text": "with",
+    "start": 2.3875,
+    "duration": 0.1375
+  },
+  {
+    "text": "the",
+    "start": 2.5375,
+    "duration": 0.1
+  },
+  {
+    "text": "input",
+    "start": 2.65,
+    "duration": 0.45
+  },
+  {
+    "text": "held",
+    "start": 3.1125,
+    "duration": 0.3125
+  },
+  {
+    "text": "at",
+    "start": 3.4375,
+    "duration": 0.2
+  },
+  {
+    "text": "two",
+    "start": 3.65,
+    "duration": 0.225
+  },
+  {
+    "text": "volts",
+    "start": 3.8875,
+    "duration": 0.3625
+  },
+  {
+    "text": "peak",
+    "start": 4.2625,
+    "duration": 0.2625
+  },
+  {
+    "text": "to",
+    "start": 4.5375,
+    "duration": 0.0875
+  },
+  {
+    "text": "peak",
+    "start": 4.6375,
+    "duration": 0.475
+  },
+  {
+    "text": "One",
+    "start": 5.4875,
+    "duration": 0.25
+  },
+  {
+    "text": "explanation",
+    "start": 5.75,
+    "duration": 0.8625
+  },
+  {
+    "text": "is",
+    "start": 6.625,
+    "duration": 0.1875
+  },
+  {
+    "text": "that",
+    "start": 6.825,
+    "duration": 0.15
+  },
+  {
+    "text": "the",
+    "start": 6.9875,
+    "duration": 0.1
+  },
+  {
+    "text": "circuit",
+    "start": 7.1,
+    "duration": 0.4875
+  },
+  {
+    "text": "responds",
+    "start": 7.6,
+    "duration": 0.55
+  },
+  {
+    "text": "more",
+    "start": 8.1625,
+    "duration": 0.1875
+  },
+  {
+    "text": "slowly",
+    "start": 8.3625,
+    "duration": 0.5625
+  },
+  {
+    "text": "The",
+    "start": 9.3125,
+    "duration": 0.1625
+  },
+  {
+    "text": "other",
+    "start": 9.4875,
+    "duration": 0.325
+  },
+  {
+    "text": "keeps",
+    "start": 9.825,
+    "duration": 0.3375
+  },
+  {
+    "text": "the",
+    "start": 10.175,
+    "duration": 0.1
+  },
+  {
+    "text": "expected",
+    "start": 10.2875,
+    "duration": 0.525
+  },
+  {
+    "text": "response",
+    "start": 10.825,
+    "duration": 0.65
+  },
+  {
+    "text": "but",
+    "start": 11.4875,
+    "duration": 0.2
+  },
+  {
+    "text": "scales",
+    "start": 11.7,
+    "duration": 0.55
+  },
+  {
+    "text": "every",
+    "start": 12.2625,
+    "duration": 0.2625
+  },
+  {
+    "text": "reading",
+    "start": 12.5375,
+    "duration": 0.3875
+  },
+  {
+    "text": "down",
+    "start": 12.9375,
+    "duration": 0.4625
+  },
+  {
+    "text": "Benchlog",
+    "start": 13.7625,
+    "duration": 0.675
+  },
+  {
+    "text": "fits",
+    "start": 14.45,
+    "duration": 0.3375
+  },
+  {
+    "text": "both",
+    "start": 14.8,
+    "duration": 0.2875
+  },
+  {
+    "text": "models",
+    "start": 15.1,
+    "duration": 0.4625
+  },
+  {
+    "text": "to",
+    "start": 15.575,
+    "duration": 0.1
+  },
+  {
+    "text": "the",
+    "start": 15.6875,
+    "duration": 0.1125
+  },
+  {
+    "text": "same",
+    "start": 15.8125,
+    "duration": 0.3
+  },
+  {
+    "text": "starting",
+    "start": 16.125,
+    "duration": 0.4875
+  },
+  {
+    "text": "observation",
+    "start": 16.625,
+    "duration": 0.8125
+  },
+  {
+    "text": "Explaining",
+    "start": 17.8125,
+    "duration": 0.65
+  },
+  {
+    "text": "a",
+    "start": 18.475,
+    "duration": 0.0375
+  },
+  {
+    "text": "known",
+    "start": 18.525,
+    "duration": 0.2875
+  },
+  {
+    "text": "reading",
+    "start": 18.825,
+    "duration": 0.5125
+  },
+  {
+    "text": "is",
+    "start": 19.35,
+    "duration": 0.1375
+  },
+  {
+    "text": "not",
+    "start": 19.5,
+    "duration": 0.225
+  },
+  {
+    "text": "the",
+    "start": 19.7375,
+    "duration": 0.1
+  },
+  {
+    "text": "same",
+    "start": 19.85,
+    "duration": 0.3625
+  },
+  {
+    "text": "as",
+    "start": 20.225,
+    "duration": 0.1125
+  },
+  {
+    "text": "predicting",
+    "start": 20.35,
+    "duration": 0.5375
+  },
+  {
+    "text": "a",
+    "start": 20.9,
+    "duration": 0.0375
+  },
+  {
+    "text": "new",
+    "start": 20.95,
+    "duration": 0.2125
+  },
+  {
+    "text": "one",
+    "start": 21.175,
+    "duration": 0.35
+  }
+]

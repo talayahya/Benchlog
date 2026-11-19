@@ -1,0 +1,128 @@
+WEBVTT
+
+00:00:00.538 --> 00:00:05.345
+You're holding two probes, watching a signal,
+and trying to keep a useful record.
+
+00:00:05.625 --> 00:00:07.333
+You read a small output.
+
+00:00:07.575 --> 00:00:11.058
+But what does that number mean, and what
+should you measure next?
+
+00:00:12.808 --> 00:00:15.277
+Benchlog starts with a spoken reading.
+
+00:00:15.558 --> 00:00:19.328
+This synthetic clip goes through the actual
+local Whisper model.
+
+00:00:19.882 --> 00:00:24.201
+[Synthetic test voice] At ten kilohertz,
+output thirty-one millivolts.
+
+00:00:24.639 --> 00:00:29.346
+The interpreted number stays pending, so you
+can check or correct it before saving.
+
+00:00:29.626 --> 00:00:33.184
+That confirmed observation becomes the
+starting evidence.
+
+00:00:34.917 --> 00:00:40.012
+This is a resistor-capacitor filter, with the
+input held at two volts peak to peak.
+
+00:00:40.267 --> 00:00:43.824
+One explanation is that the circuit responds
+more slowly.
+
+00:00:44.092 --> 00:00:48.299
+The other keeps the expected response but
+scales every reading down.
+
+00:00:48.542 --> 00:00:52.337
+Benchlog fits both models to the same starting
+observation.
+
+00:00:52.592 --> 00:00:56.424
+Explaining a known reading is not the same as
+predicting a new one.
+
+00:00:58.067 --> 00:01:00.271
+[Synthetic test voice] What would tell these
+apart?
+
+00:01:00.709 --> 00:01:04.766
+The app compares their predictions across a
+bounded set of frequencies.
+
+00:01:05.046 --> 00:01:09.976
+At eighty hertz, one predicts about one point
+seven eight volts, and the other predicts
+
+00:01:09.996 --> 00:01:11.691
+zero point one nine seven.
+
+00:01:11.971 --> 00:01:13.966
+Those are very different answers.
+
+00:01:14.246 --> 00:01:19.101
+Benchlog saves the predictions before the next
+measurement, so the explanation cannot
+
+00:01:19.121 --> 00:01:20.791
+quietly change afterwards.
+
+00:01:22.518 --> 00:01:24.563
+Now comes the new observation.
+
+00:01:25.117 --> 00:01:29.501
+[Synthetic test voice] At eighty hertz, output
+one point seven eight volts.
+
+00:01:29.939 --> 00:01:34.931
+After confirmation, one point seven eight
+volts is compared with the predictions already
+
+00:01:34.951 --> 00:01:40.509
+saved. It is close to the slower-response
+model, and far from the scale-only example.
+
+00:01:40.789 --> 00:01:45.384
+The app keeps the original reading, the
+proposed test and the result together.
+
+00:01:47.129 --> 00:01:49.849
+That does not prove which component changed.
+
+00:01:50.129 --> 00:01:55.411
+Resistance and capacitance appear as a
+product, so this model cannot separate them.
+
+00:01:55.666 --> 00:01:58.024
+And these are only two possibilities.
+
+00:01:58.304 --> 00:02:01.661
+In this separate example, neither prediction
+matches.
+
+00:02:01.904 --> 00:02:05.974
+The app keeps that uncertainty instead of
+forcing a diagnosis.
+
+00:02:07.703 --> 00:02:12.945
+This is the idea behind Benchlog: turn a
+spoken observation into a reason for the next
+
+00:02:12.965 --> 00:02:18.370
+experiment. Speech recognition uses AI; the
+predictions and comparisons are
+
+00:02:18.390 --> 00:02:24.148
+transparent code. You can inspect the receipt,
+try the prototype and read the tests.
+
+00:02:24.428 --> 00:02:27.310
+The next step is a real student bench trial.
