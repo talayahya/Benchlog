@@ -142,6 +142,11 @@
         Your browser cannot play this video.
         <a href="benchlog-demo.mp4">Download the MP4</a>.
       </video>
+      <p>
+        <button id="captions" type="button" aria-pressed="false">
+          English captions: off
+        </button>
+      </p>
       <nav class="chapters" aria-label="Video chapters">
         <button type="button" data-time="0">0:00 The question</button>
         <button type="button" data-time="12.27">0:12 Speak and confirm</button>
@@ -183,9 +188,20 @@
     </main>
     <script>
       const player = document.querySelector("video");
+      const captions = document.querySelector("#captions");
+      captions.addEventListener("click", () => {
+        const track = player.textTracks[0];
+        if (!track) return;
+        track.mode = track.mode === "showing" ? "disabled" : "showing";
+        captions.setAttribute("aria-pressed", String(track.mode === "showing"));
+        captions.textContent =
+          "English captions: " + (track.mode === "showing" ? "on" : "off");
+        player.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
       document.querySelectorAll("[data-time]").forEach((button) => {
         button.addEventListener("click", () => {
           player.currentTime = Number(button.dataset.time);
+          player.scrollIntoView({ behavior: "smooth", block: "center" });
           player.play().catch(() => player.focus());
         });
       });
