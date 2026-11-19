@@ -35,11 +35,3 @@ That does not prove which component changed. Resistance and capacitance appear a
 ## 07 · A reason for the next experiment
 
 This is the idea behind Benchlog: turn a spoken observation into a reason for the next experiment. Speech recognition uses AI; the predictions and comparisons are transparent code. You can inspect the receipt, try the prototype and read the tests. The next step is a real student bench trial.
-
-## Production boundaries
-
-- On-screen disclosure: synthetic test data and voice; actual app captures edited into an illustrated demonstration.
-- The explanatory schematic and curves are illustrations calculated from the models, not instrument traces.
-- Music: "Signal to Noise" by Scott Buckley, CC BY 4.0, scottbuckley.com.au. Use the No Piano Melody mix as a quiet excerpt, with fades and ducking beneath narration and input clips. Include this credit in the end card and documentation; do not commit the full downloaded track.
-- Captions explain the idea, rather than reading long interface paragraphs back to the audience.
-- Do not claim live microphone testing, calibrated uncertainty, learning gains or a world-first algorithm.
