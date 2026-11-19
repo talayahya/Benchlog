@@ -38,6 +38,8 @@ npm run preview
 
 `npm run check` runs TypeScript checks without making a production bundle. `npm run test:watch` keeps tests running during development.
 
+This application uses the browser WASM runtime, not native Node GPU inference. CI sets `ONNXRUNTIME_NODE_INSTALL=skip` during `npm ci` to avoid an unnecessary native-binary download. If that download fails on a local Linux setup, set the same environment variable for installation; this does not disable the browser speech runtime.
+
 ## Try the complete workflow
 
 ### From a reading to a revealing test

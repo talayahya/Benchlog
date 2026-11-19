@@ -19,6 +19,9 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+        env:
+          # Speech runs in browser WASM. Do not fetch unused native GPU binaries.
+          ONNXRUNTIME_NODE_INSTALL: skip
       - run: npm test
       - run: npm run build
       - uses: actions/upload-pages-artifact@v4
