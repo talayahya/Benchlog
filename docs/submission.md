@@ -1,28 +1,30 @@
 # Benchlog
 
-**A voice notebook for the electronics bench**  
+**A spoken reading. Two explanations. One revealing test.**  
 Tala Yahya · Hiya Voice AI Challenge · Productivity
 
 ## The problem
 
-When both hands are holding probes and your eyes are on an oscilloscope, stopping to type a measurement breaks the flow. A voice memo captures words, but still leaves the work of extracting values and checking units for later. Benchlog turns that moment into a structured notebook entry.
+When both hands are holding probes and your eyes are on an oscilloscope, stopping to type a measurement breaks the flow. Recording a number also leaves a harder question: what should you test next? Benchlog connects spoken measurements to a small, understandable investigation.
 
-The idea grew from conversations about starting RC circuit experiments and becoming familiar with lab instruments. It is aimed at students taking manual measurements, rather than laboratories that already have full instrument automation.
+The idea grew from conversations about starting RC circuit experiments and becoming familiar with lab instruments. It is designed for students taking manual measurements, without requiring remotely controllable equipment.
 
 ## What the prototype does
 
-A student sets the resistor, capacitor and fixed input amplitude for an RC low-pass sweep. They say, “At one kilohertz, output one point seven volts.” Benchlog presents the interpreted values with optional spoken read-back. “Correct output to one point six eight volts” changes the proposed reading; “save reading” commits it. The original phrase and correction remain inspectable.
+A student sets the resistor, capacitor and fixed input amplitude for an RC low-pass filter, then speaks a reading. Benchlog presents the interpreted values for correction and confirmation. Original phrases and corrections remain inspectable. Confirmed measurements appear in a notebook and response plot, with CSV, Markdown and JSON exports.
 
-Confirmed readings appear in a table and beside the ideal RC response curve. Observations are stored separately, and CSV, Markdown and JSON exports let the student keep a copy. The example notebook is explicitly synthetic and separate from personal records. The app records values supplied by a person; it does not operate instruments or measure the circuit itself.
+The question “What would tell these apart?” fits two constrained explanations to a confirmed reading: a changed RC time constant, or a constant amplitude scale. Both fit that first observation, so the app compares their predictions at candidate frequencies and proposes a separating test. A prediction receipt is saved before the next observation. New readings are compared with those fixed predictions, not used to rewrite them.
+
+In the synthetic worked example, 31 mVpp at 10 kHz fits both models. At the proposed 80 Hz test, they predict approximately 1.78 Vpp and 0.197 Vpp. The app can report a match, both, neither or inconsistent repeats. It cannot identify whether resistance or capacitance changed from their product alone.
 
 ## Why this approach
 
-Voice is useful at the hands-occupied moment. Setup, review and exports still have ordinary controls, and typing remains available when speaking is inconvenient. The default recogniser uses the browser's speech service, with its audio-processing implications disclosed. Optional on-device Whisper provides an alternative without a transcription API key, after downloading a model.
+Voice helps at the hands-occupied moment; setup, review and exports retain ordinary controls. Browser recognition is available with its processing implications disclosed. Optional on-device Whisper transcribes locally after downloading a model, without an application API key. Typing uses the same interpreter.
 
-Speech recognition is AI; the measurement interpreter is deterministic. It requires units, rejects incompatible amplitude conventions and keeps numeric entries pending until confirmation. A limited command vocabulary is a deliberate tradeoff: the prototype favours understandable behaviour over an open-ended assistant that might guess a plausible value. Calculated expectations are clearly separate from recorded readings.
+Speech recognition is AI. Units, confirmations, fitting and comparisons are deterministic TypeScript. The predictions are explainable, and comparison bands are explicitly illustrative rather than calibrated confidence. Benchlog records reported values; it does not measure or operate the circuit.
 
 ## What comes next
 
-The next step is observing students use it during an actual lab exercise. I would compare interruptions and corrected errors with a spreadsheet workflow, then test different voices and realistic background noise. There are no completed user-study or time-saving claims yet. Further work would improve unsupported-phrase recovery, test local recognition across devices and explore instrument integration where it adds value.
+The next step is a real bench trial comparing interruptions and corrected errors with a spreadsheet, then testing varied voices and background noise. Synthetic examples and automated tests do not establish physical accuracy or learning gains.
 
-The project was developed with substantial ChatGPT/Codex assistance, disclosed in `ai.md`. The repository includes setup instructions, automated tests and a plain-language architecture guide to support an informed technical review.
+Substantial ChatGPT/Codex development assistance is disclosed in `ai.md`. Setup instructions, tests and a plain-language review guide accompany the source.

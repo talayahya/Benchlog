@@ -39,7 +39,10 @@ const KEY = "benchlog.notebook.v1";
 const notebook = () => JSON.parse(localStorage.getItem(KEY)!).session;
 async function say(text: string) {
   const user = userEvent.setup();
-  await user.type(screen.getByLabelText("Or type what you would say"), text);
+  // These workflows exercise phrase submission, not individual keystrokes.
+  // Pasting avoids hundreds of full notebook rerenders under parallel CI load.
+  await user.click(screen.getByLabelText("Or type what you would say"));
+  await user.paste(text);
   await user.click(
     screen.getByRole("button", { name: "Process typed phrase" }),
   );
@@ -94,6 +97,166 @@ describe("real notebook workflows", () => {
       "6 confirmed readings",
     );
     expect(screen.queryByRole("button", { name: "Save reading" })).toBeNull();
+    expect(notebook().measurements).toHaveLength(0);
+  });
+
+  it("runs the investigation example against predictions frozen before the confirmed test", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const liveBefore = notebook();
+    await user.click(screen.getByRole("button", { name: "Try investigation" }));
+    const runPhrase = () =>
+      user.click(screen.getByRole("button", { name: "Run this phrase" }));
+    const exportRecord = async () => {
+      await user.click(screen.getByRole("button", { name: "Export" }));
+      await user.click(
+        screen.getByRole("button", { name: "Full record as JSON" }),
+      );
+      return JSON.parse(vi.mocked(download).mock.calls.at(-1)![0]);
+    };
+
+    await runPhrase(); // Anchor is still unconfirmed.
+    expect(screen.getByRole("tab", { name: "Readings 0" })).toBeTruthy();
+    expect(
+      screen
+        .getByRole("button", { name: "Compare explanations" })
+        .hasAttribute("disabled"),
+    ).toBe(true);
+    await runPhrase(); // Save the 10 kHz, 31 mV observation.
+    expect(screen.getByRole("tab", { name: "Readings 1" })).toBeTruthy();
+    await runPhrase(); // Commit to a prospective test.
+    const investigation = screen.getByRole("region", {
+      name: "What would tell them apart?",
+    });
+    expect(
+      within(investigation).getByText("Waiting for the test"),
+    ).toBeTruthy();
+    expect(within(investigation).getByText("80 Hz")).toBeTruthy();
+    const beforeTest = await exportRecord();
+    expect(beforeTest.demonstration).toBe(true);
+    const receipt = beforeTest.session.investigation;
+    expect(receipt.anchor).toMatchObject({
+      frequencyHz: 10000,
+      outputVpp: 0.031,
+      source: "demo",
+    });
+    expect(receipt.targetFrequencyHz).toBe(80);
+    expect(receipt.predictions.changedTimeConstantVpp).toBeCloseTo(
+      1.7772862243780279,
+      10,
+    );
+    expect(receipt.predictions.frequencyIndependentScaleVpp).toBeCloseTo(
+      0.19698152745867004,
+      10,
+    );
+
+    await runPhrase(); // A proposed test value must not produce a result yet.
+    expect(screen.getByRole("tab", { name: "Readings 1" })).toBeTruthy();
+    expect(
+      within(investigation).getByText("Waiting for the test"),
+    ).toBeTruthy();
+    expect(
+      within(investigation).queryByText("Confirmed observation"),
+    ).toBeNull();
+    await runPhrase(); // Save the 80 Hz, 1.78 Vpp test.
+    expect(screen.getByRole("tab", { name: "Readings 2" })).toBeTruthy();
+    expect(
+      within(investigation).getByText("Within the comparison band"),
+    ).toBeTruthy();
+    expect(
+      within(investigation).getByText("Outside the comparison band"),
+    ).toBeTruthy();
+    await runPhrase(); // Review the evidence, without asserting a hardware cause.
+    expect(screen.getByRole("status").textContent).toContain(
+      "not a hardware diagnosis",
+    );
+    expect(
+      screen.queryByRole("button", { name: "Run this phrase" }),
+    ).toBeNull();
+    const afterTest = await exportRecord();
+    expect(afterTest.session.investigation).toEqual(receipt);
+    expect(afterTest.session.measurements[1]).toMatchObject({
+      frequencyHz: 80,
+      outputVpp: 1.78,
+      source: "demo",
+    });
+    expect(receipt.existingMeasurementIds).not.toContain(
+      afterTest.session.measurements[1].id,
+    );
+
+    expect(notebook()).toEqual(liveBefore);
+    await user.click(screen.getByRole("button", { name: "My notebook" }));
+    expect(notebook()).toEqual(liveBefore);
+    expect(screen.getByRole("tab", { name: "Readings 0" })).toBeTruthy();
+    expect(screen.queryByText("Waiting for the test")).toBeNull();
+  });
+
+  it("advances audio-guided steps only when recognised words produce the expected action", async () => {
+    const user = userEvent.setup();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        blob: async () => new Blob(["dummy"], { type: "audio/wav" }),
+      }),
+    );
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: "Try investigation" }));
+    const transcribe = async (words: string) => {
+      clip.resolve = null;
+      await user.click(
+        screen.getByRole("button", { name: "Transcribe example audio" }),
+      );
+      await waitFor(() => expect(clip.resolve).not.toBeNull());
+      await act(async () => {
+        clip.resolve!(words);
+      });
+    };
+
+    await transcribe("hello");
+    expect(
+      screen.getByRole("heading", { name: "Start with a surprising reading" }),
+    ).toBeTruthy();
+    expect(screen.getByRole("status").textContent).toContain(
+      "could not identify a measurement",
+    );
+    expect(screen.queryByRole("button", { name: "Save reading" })).toBeNull();
+    await transcribe("At ten kilohertz"); // A partial reading is not a completed step either.
+    expect(
+      screen.getByRole("heading", { name: "Start with a surprising reading" }),
+    ).toBeTruthy();
+    await transcribe("At ten kilohertz, output thirty millivolts");
+    expect(
+      screen.getByRole("heading", { name: "Confirm the observation" }),
+    ).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "Run this phrase" }));
+
+    await transcribe("hello");
+    expect(
+      screen.getByRole("heading", {
+        name: "Ask a better experimental question",
+      }),
+    ).toBeTruthy();
+    expect(screen.queryByText("Waiting for the test")).toBeNull();
+    await transcribe("What would tell these apart?");
+    expect(
+      screen.getByRole("heading", { name: "Take the proposed measurement" }),
+    ).toBeTruthy();
+    expect(screen.getByText("Waiting for the test")).toBeTruthy();
+    await user.click(screen.getByRole("button", { name: "Export" }));
+    await user.click(
+      screen.getByRole("button", { name: "Full record as JSON" }),
+    );
+    const record = JSON.parse(vi.mocked(download).mock.calls.at(-1)![0]);
+    // Preserve the actually recognised value, not the fixture's advertised 31 mV.
+    expect(record.session.investigation.anchor.outputVpp).toBe(0.03);
+    expect(record.session.investigation.anchor.transcript).toBe(
+      "At ten kilohertz",
+    );
+    expect(record.session.investigation.anchor.history).toContain(
+      "At ten kilohertz, output thirty millivolts",
+    );
+    expect(record.session.measurements).toHaveLength(1);
     expect(notebook().measurements).toHaveLength(0);
   });
 

@@ -10,6 +10,10 @@ Parallel Codex agents assisted with company/design research, the deterministic m
 
 This includes the one-page write-up and demonstration/review material. The repository does not claim that Tala wrote all of the code unaided, ran a physical circuit trial or independently verified each subsystem. The plain-language review guide is intended to help her understand the code, exercise it and prepare to discuss decisions and limitations herself.
 
+The later investigation feature was also designed and implemented with Codex assistance. Agents researched established voice-lab and model-based troubleshooting work, independently checked the two fitted RC examples, implemented the saved prediction receipt and comparison outcomes, and added tests and documentation. The distinguishing product decision is making rival numerical predictions visible before the next observation, not claiming a newly invented diagnosis method.
+
+Codex prepared the demonstration storyboard, renderer and synthetic speech fixtures. The completed 2 minute 20 second video uses real application captures with concise captions and three actual synthetic input clips, without an artificial narrator or music. Its editing and synthetic data are labelled throughout. The captures document real local-Whisper inference and application results, assembled as an edited sequence rather than a continuous live recording. It does not depict physical instrument use or establish inference latency. The source captures and manifest are included in `docs/video/`.
+
 ## AI at runtime
 
 The application uses pretrained **automatic speech recognition** to convert audio into text:
@@ -17,7 +21,7 @@ The application uses pretrained **automatic speech recognition** to convert audi
 - The browser speech path uses the recognition service exposed by the user's browser. The underlying provider/model depends on that browser and may involve remote processing.
 - The optional local path uses `onnx-community/whisper-tiny.en` through Hugging Face Transformers.js, with `q8` quantisation and WASM in a worker. It downloads model resources before local inference.
 
-The command parser, unit validation, confirmation flow, record history, RC equations and exports are deterministic TypeScript. No LLM generates measurements or invents missing units. The typed-input path does not invoke speech AI. Spoken read-back uses browser speech synthesis rather than a custom-trained voice model.
+The command parser, unit validation, confirmation flow, record history, RC equations, two constrained model fits, frequency selection, saved predictions, comparison outcomes and exports are deterministic TypeScript. No LLM generates measurements or invents missing units. The typed-input path does not invoke speech AI. Spoken read-back uses browser speech synthesis rather than a custom-trained voice model.
 
 ## Verification boundaries
 

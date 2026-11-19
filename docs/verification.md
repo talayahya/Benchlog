@@ -23,7 +23,25 @@ The hosted check repeated actual Whisper inference and returned the same transcr
 
 An earlier hosted check caught a lifecycle bug: backgrounding the tab cancelled an explicitly requested file transcription. The fix separates file inference from live microphone capture. File transcription now continues while hidden; live capture and read-back still stop, and cancelling or switching notebooks still prevents stale file results from being applied.
 
+## Investigation verification, 19 November 2026
+
+The new investigation was exercised in desktop Edge against the local development build. Each of the three bundled synthetic WAV files passed through the actual local Whisper recogniser, with these observed transcripts:
+
+| Fixture | Recognised transcript | Observed behaviour |
+| --- | --- | --- |
+| `investigation-anchor.wav` | “At 10 kilohertz, output 31 millivolts.” | Proposed 10000 Hz / 0.031 Vpp, then saved only after confirmation. |
+| `investigation-question.wav` | “What would tell these apart?” | Fitted both models to the confirmed anchor and froze an 80 Hz test with predictions 1.7772862244 Vpp and 0.1969815275 Vpp. |
+| `investigation-result.wav` | “At 80 Hz, output 1.78 volts.” | Proposed 80 Hz / 1.78 Vpp, then compared it with the frozen predictions only after confirmation. |
+
+The [actual exported JSON](investigation-example.json) preserves the sequence: anchor confirmed at 11:25:14 UTC, predictions created at 11:25:28 UTC, and test reading confirmed at 11:26:29 UTC. Both measurement records are labelled `demo`. The JSON was downloaded through the app's export control; it was not constructed as a substitute for the UI run.
+
+A separate typed synthetic test of **0.8 Vpp at 80 Hz** produced the intended **neither prediction matches** outcome. It did not force a winner. A 390 × 844 responsive check showed readable prediction columns and no page-wide horizontal overflow; the readings table retains its own horizontal scroll. This was viewport emulation, not a physical mobile-device test.
+
+These are three successful synthetic speech fixture checks, not a general speech-accuracy benchmark, live microphone trial, or physical experiment. The video uses edited captures of these checks and explicitly labels the synthetic inputs.
+
 ## Automated verification
+
+On **19 November 2026**, the expanded suite passed **128 of 128 tests** across six files using `npm test -- --maxWorkers=1`. The twelve UI tests include the full investigation: pending readings cannot supply evidence, the prediction receipt is unchanged after the test reading arrives, and example data remains isolated from the live notebook. One worker avoids unnecessary peak memory use while the browser speech model is loaded. No test timeouts were increased.
 
 Run the current repository's checks:
 

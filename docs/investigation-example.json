@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "demonstration": true,
+  "session": {
+    "config": {
+      "title": "Two explanations · example",
+      "resistanceOhm": 1000,
+      "capacitanceF": 1e-7,
+      "inputVpp": 2
+    },
+    "measurements": [
+      {
+        "transcript": "At 10 kilohertz, output 31 millivolts.",
+        "source": "demo",
+        "history": [],
+        "frequencyHz": 10000,
+        "outputVpp": 0.031,
+        "id": "a0b710b0-7502-4631-92c2-c6f44fdd1ee1",
+        "createdAt": "2026-11-19T11:25:14.403Z"
+      },
+      {
+        "transcript": "At 80 Hz, output 1.78 volts.",
+        "source": "demo",
+        "history": [],
+        "frequencyHz": 80,
+        "outputVpp": 1.78,
+        "id": "a561237d-7d54-48e4-a7f8-464d1d110d43",
+        "createdAt": "2026-11-19T11:26:29.623Z"
+      }
+    ],
+    "notes": [],
+    "pending": null,
+    "reply": "The changed-time-constant prediction matches every test reading within the illustrative band; the scale-only prediction does not consistently match. This is a comparison between models, not a hardware diagnosis.",
+    "investigation": {
+      "version": 1,
+      "id": "ac3d86c6-22e0-4c55-933c-8b482383c7a6",
+      "createdAt": "2026-11-19T11:25:28.196Z",
+      "anchor": {
+        "transcript": "At 10 kilohertz, output 31 millivolts.",
+        "source": "demo",
+        "history": [],
+        "frequencyHz": 10000,
+        "outputVpp": 0.031,
+        "id": "a0b710b0-7502-4631-92c2-c6f44fdd1ee1",
+        "createdAt": "2026-11-19T11:25:14.403Z"
+      },
+      "config": {
+        "title": "Two explanations · example",
+        "resistanceOhm": 1000,
+        "capacitanceF": 1e-7,
+        "inputVpp": 2
+      },
+      "sourceIds": [
+        "a0b710b0-7502-4631-92c2-c6f44fdd1ee1"
+      ],
+      "existingMeasurementIds": [
+        "a0b710b0-7502-4631-92c2-c6f44fdd1ee1"
+      ],
+      "models": {
+        "changedTimeConstant": {
+          "tauSeconds": 0.0010266827319736407
+        },
+        "frequencyIndependentScale": {
+          "tauSeconds": 0.00009999999999999999,
+          "scale": 0.09861510953929359
+        }
+      },
+      "candidateFrequenciesHz": [
+        80,
+        160,
+        320,
+        800,
+        1600,
+        3200,
+        8000,
+        16000,
+        32000
+      ],
+      "targetFrequencyHz": 80,
+      "predictions": {
+        "changedTimeConstantVpp": 1.7772862243780279,
+        "frequencyIndependentScaleVpp": 0.19698152745867004
+      },
+      "separationVpp": 1.5803046969193577,
+      "frequencyToleranceFraction": 0.02,
+      "comparisonBand": {
+        "relative": 0.05,
+        "absoluteV": 0.01
+      }
+    }
+  }
+}

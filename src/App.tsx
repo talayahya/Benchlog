@@ -25,6 +25,7 @@ import { LocalSpeech } from "./localSpeech";
 import { loadSession, saveSession, download } from "./storage";
 import Plot from "./Plot";
 import Schematic from "./Schematic";
+import Investigation from "./InvestigationPanel";
 
 function Icon({ name, size = 20 }: { name: string; size?: number }) {
   const paths: Record<string, ReactNode> = {
@@ -128,7 +129,13 @@ function Dialog({
     </dialog>
   );
 }
-const DEMO_STEPS = [
+type ExampleStep = {
+  label: string;
+  text: string;
+  detail: string;
+  audio?: string;
+};
+const DEMO_STEPS: ExampleStep[] = [
   {
     label: "Capture a reading",
     text: "At one kilohertz, output one point seven volts",
@@ -174,6 +181,56 @@ const DEMO_STEPS = [
       "A short summary comes from the saved numbers, not an invented explanation.",
   },
 ];
+const INVESTIGATION_STEPS: ExampleStep[] = [
+  {
+    label: "Start with a surprising reading",
+    text: "At ten kilohertz, output thirty one millivolts",
+    audio: "investigation-anchor.wav",
+    detail:
+      "Synthetic example: 31 mV is much smaller than the configured circuit predicts. Transcribe the audio through real Whisper, or run the phrase as text.",
+  },
+  {
+    label: "Confirm the observation",
+    text: "Save reading",
+    detail:
+      "Keep what was observed. A theory must never silently change the recorded value.",
+  },
+  {
+    label: "Ask a better experimental question",
+    text: "What would tell these apart?",
+    audio: "investigation-question.wav",
+    detail:
+      "Two models are fitted to that one observation. Benchlog commits to their predictions for a new test before seeing its result.",
+  },
+  {
+    label: "Take the proposed measurement",
+    text: "At eighty hertz, output one point seven eight volts",
+    audio: "investigation-result.wav",
+    detail:
+      "This is another synthetic reading, chosen to demonstrate a changed time constant. In a real experiment, set the proposed frequency and read your instrument.",
+  },
+  {
+    label: "Compare against the frozen predictions",
+    text: "Save reading",
+    detail:
+      "The comparison uses the earlier predictions. Neither model is refitted to make this result look better.",
+  },
+  {
+    label: "Explain what the evidence means",
+    text: "Review the investigation",
+    detail:
+      "A closer match supports one of these two models. It does not prove which component or instrument setting caused the result.",
+  },
+];
+function investigationExample() {
+  const s = createSession();
+  return {
+    ...s,
+    config: { ...s.config, title: "Two explanations · example" },
+    reply:
+      "This synthetic investigation starts with an unexpectedly small reading. Capture it, then ask which test would distinguish two possible explanations.",
+  };
+}
 function example() {
   let s = createSession();
   s = {
@@ -204,6 +261,8 @@ export default function App() {
     [step, setStep] = useState(0),
     [typed, setTyped] = useState(""),
     [transcript, setTranscript] = useState("");
+  const [demoKind, setDemoKind] = useState<"sweep" | "investigation">("sweep");
+  const steps = demoKind === "investigation" ? INVESTIGATION_STEPS : DEMO_STEPS;
   const [status, setStatus] = useState<VoiceStatus>("idle"),
     [interim, setInterim] = useState(""),
     [error, setError] = useState(""),
@@ -309,6 +368,11 @@ export default function App() {
   }
   function toggleDemo() {
     stopVoice();
+    if (!demo && demoKind !== "sweep") {
+      setDemoKind("sweep");
+      setDemoSession(example());
+      setStep(0);
+    }
     setDemo((v) => !v);
     setTranscript("");
     setError("");
@@ -316,9 +380,75 @@ export default function App() {
   }
   function resetDemo() {
     stopVoice();
-    setDemoSession(example());
+    setDemoSession(
+      demoKind === "investigation" ? investigationExample() : example(),
+    );
     setStep(0);
     setTranscript("");
+  }
+  function startInvestigationExample() {
+    stopVoice();
+    const fresh = investigationExample();
+    setDemoKind("investigation");
+    setDemo(true);
+    demoRef.current = true;
+    setDemoSession(fresh);
+    sessionRef.current = fresh;
+    setStep(0);
+    setTranscript("");
+    setError("");
+    setTyped("");
+  }
+  async function transcribeExampleStep(filename: string) {
+    stopVoice();
+    const op = operation.current;
+    setLocalBusy(true);
+    setInterim("Loading the example audio…");
+    setError("");
+    try {
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}examples/${filename}`,
+      );
+      if (!response.ok)
+        throw new Error("The example audio could not be loaded.");
+      const blob = await response.blob();
+      if (op !== operation.current) return;
+      const before = sessionRef.current;
+      const succeeded = await transcribeClip(
+        new File([blob], filename, { type: "audio/wav" }),
+        op,
+      );
+      if (succeeded && op === operation.current) {
+        const after = sessionRef.current;
+        // Recognition alone is not completion: keep the real engine reply and
+        // let the user retry if the words did not produce this step's action.
+        const completed =
+          filename === "investigation-question.wav"
+            ? Boolean(
+                after.investigation &&
+                after.investigation.id !== before.investigation?.id,
+              )
+            : Boolean(
+                after.pending &&
+                after.pending !== before.pending &&
+                after.pending.frequencyHz !== undefined &&
+                after.pending.outputVpp !== undefined,
+              );
+        if (completed) setStep((s) => s + 1);
+      }
+    } catch (error) {
+      if (op === operation.current)
+        setError(
+          error instanceof Error
+            ? error.message
+            : "The audio could not be transcribed.",
+        );
+    } finally {
+      if (op === operation.current) {
+        setLocalBusy(false);
+        setInterim("");
+      }
+    }
   }
   function submit(e: FormEvent) {
     e.preventDefault();
@@ -384,6 +514,7 @@ export default function App() {
   }
   async function trySample() {
     stopVoice();
+    setDemoKind("sweep");
     setDemo(true);
     demoRef.current = true;
     const fresh = example();
@@ -475,7 +606,7 @@ export default function App() {
           </h1>
           <p className="intro">
             Read the instrument aloud. <br />
-            Confirm each value.
+            Test what it could mean.
           </p>
           <div className="circuit-label">
             <span>RC low-pass filter</span>
@@ -550,6 +681,11 @@ export default function App() {
               <h2>{session.config.title}</h2>
             </div>
             <div className="notebook-actions">
+              {!demo && (
+                <button className="primary" onClick={startInvestigationExample}>
+                  Try investigation
+                </button>
+              )}
               <button
                 className={demo ? "secondary selected" : "secondary"}
                 onClick={toggleDemo}
@@ -768,29 +904,40 @@ export default function App() {
             <section className="walkthrough" aria-label="Guided example">
               <div className="walkthrough-heading">
                 <span className="step-number">
-                  {Math.min(step + 1, DEMO_STEPS.length)} / {DEMO_STEPS.length}
+                  {Math.min(step + 1, steps.length)} / {steps.length}
                 </span>
                 <div>
                   <h3>
-                    {step < DEMO_STEPS.length
-                      ? DEMO_STEPS[step].label
+                    {step < steps.length
+                      ? steps[step].label
                       : "That is the whole loop."}
                   </h3>
                   <p>
-                    {step < DEMO_STEPS.length
-                      ? DEMO_STEPS[step].detail
+                    {step < steps.length
+                      ? steps[step].detail
                       : "Try your own phrasing, inspect a reading’s history, or return to your notebook."}
                   </p>
                 </div>
               </div>
-              {step < DEMO_STEPS.length && (
+              {step < steps.length && (
                 <div className="demo-phrase">
-                  <q>{DEMO_STEPS[step].text}</q>
+                  <q>{steps[step].text}</q>
+                  {steps[step].audio && (
+                    <button
+                      className="secondary"
+                      disabled={localBusy}
+                      onClick={() =>
+                        void transcribeExampleStep(steps[step].audio!)
+                      }
+                    >
+                      Transcribe example audio
+                    </button>
+                  )}
                   <button
                     className="primary"
                     disabled={localBusy}
                     onClick={() => {
-                      process(DEMO_STEPS[step].text, "demo");
+                      process(steps[step].text, "demo");
                       setStep((s) => s + 1);
                     }}
                   >
@@ -821,6 +968,10 @@ export default function App() {
               </button>
             </section>
           )}
+          <Investigation
+            session={session}
+            onCommand={(text) => process(text)}
+          />
           <section className="ledger" aria-label="Saved notebook">
             <div className="ledger-header">
               <div

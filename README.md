@@ -1,18 +1,21 @@
 # Benchlog
 
-A voice notebook for the electronics bench. Say a reading while holding your probes, correct what was heard, and confirm it before it enters the experiment record.
+A voice-led investigation for the electronics bench. Speak a reading, compare two explanations that fit it, then save their predictions before taking the test that tells them apart.
 
-Built for the **Hiya Voice AI Challenge, Productivity track**. The initial workflow is a sine-wave frequency sweep through an RC low-pass filter. Benchlog records values read by a person; it does not connect to or operate lab instruments.
+Built for the **Hiya Voice AI Challenge, Productivity track**. The supported experiment is an ideal first-order RC low-pass filter with fixed sine-wave input. Benchlog records values read by a person, with correction and explicit confirmation. It does not connect to or operate lab instruments.
 
 - Repository: [github.com/talayahya/Benchlog](https://github.com/talayahya/Benchlog/)
 - Live demo: [talayahya.github.io/Benchlog](https://talayahya.github.io/Benchlog/)
+- [Watch the 2:20 walkthrough](https://talayahya.github.io/Benchlog/benchlog-demo.mp4): caption-led real app captures with three synthetic speech clips, clearly labelled.
+- [Inspect the exported investigation record](docs/investigation-example.json)
 - [One-page project explanation](docs/submission.md)
 - [AI assistance disclosure](ai.md)
 - [Research and design decisions](docs/research.md)
+- [Investigation prior art and scientific limits](docs/investigation-prior-art.md)
 - [Plain-language review guide](docs/review-guide.md)
 - [Verification record and limits](docs/verification.md)
 
-![Benchlog desktop workspace](docs/screenshots/desktop.jpg)
+![Two explanations and their frozen predictions in the synthetic investigation](docs/screenshots/investigation-desktop.jpg)
 
 ## Run locally
 
@@ -36,6 +39,21 @@ npm run preview
 `npm run check` runs TypeScript checks without making a production bundle. `npm run test:watch` keeps tests running during development.
 
 ## Try the complete workflow
+
+### From a reading to a revealing test
+
+Choose **Try investigation** for a fresh, isolated example with the defaults **1 kΩ, 100 nF and 2 Vpp**. The values below are a **synthetic worked example**, not measurements from a physical circuit. The example keeps them separate from personal results. Its audio buttons send synthetic recordings through actual local Whisper; **Run this phrase** exercises the interpreter with text instead.
+
+1. Say or type **“At ten kilohertz, output thirty one millivolts.”** Check the pending values, then **“Save reading.”**
+2. Ask **“What would tell these apart?”** or choose **Compare explanations**. Two constrained models fit that same confirmed observation: one changes the RC time constant; the other retains the nominal curve and changes a constant amplitude scale.
+3. The app compares their predictions over a disclosed finite candidate grid. For this example it proposes **80 Hz**, predicting approximately **1.78 Vpp** versus **0.197 Vpp**. The comparison command saves a **prediction receipt** with the original observation, setup, model parameters and predictions.
+4. Enter **“At eighty hertz, output one point seven eight volts.”** Confirm it. The new reading is compared with the predictions already saved; neither model is refitted to the answer.
+5. Open **Prediction receipt** or ask **“Review the investigation.”** This result matches the changed-time-constant example within the illustrative comparison band. It does not identify a faulty capacitor: the model sees the product of resistance and capacitance, not which one changed.
+6. Export Markdown or JSON to inspect the retained evidence. Outcomes also include both models matching, neither matching and inconsistent repeated readings. **New comparison** is an explicit action that replaces the current receipt, so export first if you need to retain it separately.
+
+The comparison uses an engineering rule, **± the larger of 5% of the prediction or 0.01 Vpp**, not a statistical confidence interval or instrument specification. It only considers new confirmed readings within 2% of the planned frequency. Existing data and pending values cannot become the held-out test.
+
+### Capture, correct and keep the record
 
 1. Choose **Try example** for an isolated notebook containing explicitly labelled synthetic readings. The guided phrases demonstrate capture, correction, confirmation and handling a missing unit. Your own notebook is kept separately.
 2. Return to **My notebook**. The starting setup is **1 kΩ, 100 nF and 2 Vpp**. Change these with **Set up experiment** before collecting data. Keep the input amplitude fixed during this notebook.
@@ -69,6 +87,9 @@ In a desktop Edge check, Whisper returned **“At 1 kilohertz, output 1.7 volts.
 | Add an observation                               | `Note: the trace looks noisy`                         |
 | Summarise saved records                          | `Summarise the session`                               |
 | Suggest a point from the RC model                | `Suggest next frequency`                              |
+| Fit two explanations and save a prospective test | `What would tell these apart?`                       |
+| Review the saved comparison and its outcome      | `Review the investigation`                           |
+| Explicitly replace the current comparison        | `New comparison`                                     |
 | Get command help                                 | `Help`                                                |
 
 The interpreter supports bounded English commands, not unrestricted conversation. Numerical fields need units. It distinguishes `mHz` from `MHz`, rejects RMS and peak-only readings, and does not guess a missing unit. A changed input amplitude must be made through experiment setup rather than silently mixed into the current sweep.
@@ -107,6 +128,14 @@ Microphone / local audio file
                  Explicit confirmation
                           |
           Saved notebook + RC plot + exports
+                          |
+             Two fitted explanations
+                          |
+           Frozen prediction receipt
+                          |
+             New confirmed test reading
+                          |
+          Compare with saved predictions
 ```
 
 Speech recognition uses pretrained AI. Parsing, validation, confirmations, history, calculations and exports use conventional TypeScript. There is no general-purpose LLM deciding what a measurement should be.
@@ -114,6 +143,8 @@ Speech recognition uses pretrained AI. Parsing, validation, confirmations, histo
 | File                                | Responsibility                                                                       |
 | ----------------------------------- | ------------------------------------------------------------------------------------ |
 | `src/engine.ts`                     | Command interpretation, unit validation, notebook transitions, RC maths and exports. |
+| `src/investigation.ts`              | Two constrained model fits, candidate selection, saved-receipt validation and held-out comparison. |
+| `src/InvestigationPanel.tsx`        | Rival predictions, proposed test, comparison outcome and inspectable receipt. |
 | `src/voice.ts`                      | Browser recognition lifecycle and spoken read-back.                                  |
 | `src/localVoice.ts`                 | Microphone capture and silence-delimited local speech turns.                         |
 | `src/localSpeech.ts`                | Clip validation, decoding, mono 16kHz conversion and worker requests.                |
@@ -135,25 +166,44 @@ recorded gain dB = 20 × log10(output Vpp / configured input Vpp)
 
 With the defaults, the calculated cutoff is approximately **1.59 kHz**. The expected curve and confirmed readings remain distinct. Probe loading, source impedance, component tolerances and instrument errors are not included. A suggested next frequency comes from this model, not an analysis of an instrument waveform. Phase can be recorded as an additional value; the current response chart focuses on amplitude gain.
 
+### Two explanations, not a fault diagnosis
+
+The investigation fits a confirmed positive output below the configured input. Both alternatives use:
+
+```text
+output = input × scale / sqrt(1 + (2π × frequency × time constant)²)
+time constant = resistance × capacitance
+```
+
+The first model fixes scale at one and fits the time constant. The second keeps the nominal time constant and fits a constant scale. Both match the anchor by construction. The proposed frequency maximises absolute voltage separation only over nine nominal-cutoff multiples, rounded to two significant figures and bounded to 1 Hz–1 MHz. Frequencies already measured within 2% are excluded. The full candidate list is retained in the JSON receipt. A separation below 1% of input is refused as unhelpful under the prototype's planning rule.
+
+The receipt copies its source reading, configuration, fitted parameters and predictions. Changing the configuration or deleting/changing the anchor invalidates its comparison. Matching a model does not prove a physical cause, and these two alternatives are not exhaustive. The [review guide](docs/review-guide.md) works through the calculations in ordinary language; the [prior-art check](docs/investigation-prior-art.md) explains how this builds on established voice-lab and model-based troubleshooting ideas.
+
 ## Data and privacy
 
 - Benchlog has no account system, analytics or application database.
 - Your notebook is stored in this browser's local storage. Clearing browser data removes it. Export a separate copy before changing devices or starting a new experiment.
 - The synthetic example uses separate application state and does not replace the personal notebook.
-- Benchlog does not persist audio recordings. Confirmed transcripts, corrections and notes remain in the local record. JSON exports contain the full session, including any pending reading; CSV and Markdown export confirmed measurements.
+- Benchlog does not persist audio recordings. Confirmed transcripts, corrections and notes remain in the local record. JSON exports contain the full session, including any pending reading and prediction receipt. Markdown includes the confirmed experiment and investigation; CSV remains a confirmed-measurement table.
 - Browser speech may send audio to the browser's chosen provider. This is disclosed before activation.
 - Local Whisper processes captured audio on the device. Model/runtime downloads contact their hosting providers. The app fonts are bundled locally.
 - Spoken read-back uses the browser's speech-synthesis facilities. Local mode explicitly selects a browser-reported local English voice or falls back to text; browser-speech mode depends on the browser/operating system's available voices.
 
 ## Verification and limits
 
-The tests exercise the command engine and voice lifecycle, including parsing, validation, correction, confirmation, export behaviour and stale-callback handling. All **91 tests passed** in the full-suite check on 18 November 2026; run `npm test` for the current result. A successful build or mocked voice test does not establish real microphone accuracy.
+The tests exercise the command engine and voice lifecycle, including parsing, validation, correction, confirmation, export behaviour and stale-callback handling. Investigation tests cover independently calculated predictions, frozen receipts, withheld evidence, invalidation and both/neither/inconsistent outcomes. Run `npm test` for the current result and see the dated [verification record](docs/verification.md). A successful build or mocked voice test does not establish real microphone accuracy.
 
 The localhost production build's local Whisper path was exercised with the bundled synthetic speech fixture in desktop Microsoft Edge. The complete eight-step guided workflow produced six readings and one note. The downloaded CSV retained the original 1.7 Vpp phrase and its correction to 1.68 Vpp. A 390 × 844 browser viewport had no horizontal page overflow; this was an emulated viewport, not a physical mobile-device test. Live microphone lifecycle behaviour is covered with mocks; there has not been a live user microphone trial or a broad browser/device test. The distinction is recorded in [verification.md](docs/verification.md).
 
 This prototype has no completed lab user study, measured time-saving claim or benchmark across accents, noise conditions and devices. It does not check electrical safety or control equipment. Its history is inspectable local provenance, not an immutable audit system. Recognition can be wrong; review each proposed reading.
 
 Useful next work is to test the workflow with students at the bench, measure errors and interruptions against a spreadsheet baseline, and improve recovery where recognition or phrasing fails. More detail is in [research.md](docs/research.md) and the [review guide](docs/review-guide.md).
+
+### Reproduce the video
+
+The walkthrough is an edited sequence of real app captures, with the same three synthetic audio fixtures used in the local-Whisper checks. It has captions and no artificial narrator, music or fabricated UI interaction. It is not a continuous recording or a latency benchmark. The [manifest](docs/video/demo-manifest.json) specifies every supplied capture, crop, duration and audio cue.
+
+With Python, Pillow, imageio-ffmpeg and the Windows Segoe UI/Consolas fonts available, run `python scripts/build_demo_video.py --check` to validate the assets, then `python scripts/build_demo_video.py --output public/benchlog-demo.mp4` to render. Frames are streamed to ffmpeg rather than saved as a large image sequence. The output is 1280 × 720, 24 fps, 140 seconds.
 
 ## Credits
 

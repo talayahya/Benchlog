@@ -185,3 +185,54 @@ For a microphone-free demonstration of the model itself, use **Transcribe the sa
 ## What to learn before the review
 
 Be able to trace one sentence through audio, transcript, parsed values, pending state, confirmation, storage and export. Change one component value and explain why the expected curve moves. Try an ambiguous command and observe what the app actually does. Open one parser test, one state transition and one calculation and describe them in ordinary language. Then choose one improvement you would make next and explain how you would test whether it helped.
+
+## The investigation: one reading can tell two stories
+
+The investigation adds a question after recording: **“What would tell these apart?”** A surprisingly low output could mean the circuit behaves differently from the setup you entered. It could also mean the amplitude has been scaled somewhere in the measurement chain. One number cannot automatically tell you which explanation is right.
+
+Benchlog fits two small mathematical examples to the same confirmed number. It then finds a frequency where those examples predict substantially different outputs. That gives the student a reason to make another measurement, rather than simply collecting more numbers.
+
+### What the two models change
+
+For a low-pass RC filter, **R × C** is its time constant, written τ (the Greek letter tau). With 1,000 ohms and 100 nanofarads, it is 0.0001 seconds, or 100 microseconds. A larger time constant makes the filter attenuate signals at lower frequencies.
+
+- **Model A: circuit response changed.** Keep the low-frequency gain at one, but change the time constant until the model matches the confirmed reading.
+- **Model B: reading scale changed.** Keep the original time constant, but multiply every predicted amplitude by one constant factor until it matches that same reading.
+
+“Fit” here means calculating the parameter that makes an equation pass through one observation. It is not training a language model. Both examples fit that first number on purpose, so neither has earned your preference yet.
+
+### The worked example, slowly
+
+The input is fixed at 2 Vpp. The synthetic starting observation is 31 mVpp at 10,000 Hz. First convert millivolts to volts: 31 mV is 0.031 V. Divide output by input to get the observed gain, **0.031 / 2 = 0.0155**.
+
+The magnitude equation is:
+
+```text
+output = input × scale / sqrt(1 + (2π × frequency × time constant)²)
+```
+
+Frequency tells us how quickly the sine wave repeats. The time constant describes the filter. The square root term describes how much the ideal filter reduces amplitude at that frequency. The scale factor multiplies the whole curve.
+
+Rearranging that equation gives Model A a time constant of approximately **1.027 milliseconds**, about **10.27 times** the nominal value. Keeping the original time constant instead gives Model B a scale of approximately **0.0986**, close to one tenth. Either can explain the first 31 mVpp observation, but for different mathematical reasons.
+
+At the suggested **80 Hz**, Model A predicts approximately **1.777 Vpp**, while Model B predicts **0.197 Vpp**. Their difference is now large enough to make a follow-up observation useful. The code tries a finite set of frequencies around the nominal cutoff and chooses the largest absolute voltage separation among usable candidates. It does not search every possible frequency or optimise against a measured noise model.
+
+### Why save a prediction receipt first?
+
+Imagine adjusting your explanation after seeing every answer, then saying it predicted everything. That would not be a fair test. The receipt is a snapshot made before the follow-up observation: it preserves the original reading, setup, model parameters, proposed frequency and both predicted outputs.
+
+The next confirmed reading is compared against that snapshot. It does not quietly change the models. Existing readings and pending interpretations cannot count as the new test. If the setup or original reading changes, the comparison becomes invalid. **New comparison** explicitly starts again; export the old receipt first if you want a separate retained copy. This is inspectable local provenance, not a tamper-proof scientific record.
+
+### What can the result actually say?
+
+If the synthetic follow-up is **1.78 Vpp at 80 Hz**, it is close to Model A's saved 1.777 Vpp prediction and far from Model B's 0.197 Vpp prediction. That supports saying **“closer to the changed-time-constant example”**, not “the capacitor is faulty.” R and C only appear as a product here, so these amplitude observations cannot identify which one changed. A source-amplitude mistake and another constant scale error can also be indistinguishable in this model.
+
+The prototype's matching rule accepts a difference up to the larger of **5% of that prediction or 0.01 Vpp**. It is a disclosed engineering choice, not an instrument accuracy specification, probability or confidence interval. A new frequency may be within 2% of the proposed one, but the saved prediction is still for the original planned frequency.
+
+Both models can match, neither can match, or repeated measurements can disagree. Those are valid outcomes. Two examples do not cover every real circuit or instrument problem, and the software must not force a diagnosis when its explanations are inadequate.
+
+### Explain the design in one short answer
+
+> The useful part is making the next experiment understandable. Two explanations can fit the same reading, so the app shows where their predictions differ and saves those predictions before you measure again. The maths is deterministic, so I can inspect why it chose that frequency. A matching result supports a model, but it does not prove which component caused it.
+
+Read `src/investigation.ts` for the fitting and comparison, `src/InvestigationPanel.tsx` for the visible explanations, and `tests/investigation.test.ts` for the numerical and refusal cases. `tests/investigation-commands.test.ts` follows the spoken-command route through recording, confirmation and the receipt. The updated demonstration storyboard is in `docs/demo-video-script.md`; its synthetic data must remain labelled.

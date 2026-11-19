@@ -24,6 +24,7 @@ SOURCE = ROOT / "docs" / "submission.md"
 OUTPUT = ROOT / "docs" / "Benchlog_Hiya_Challenge_One_Page.pdf"
 REPOSITORY = "https://github.com/talayahya/Benchlog"
 PROTOTYPE = "https://talayahya.github.io/Benchlog/"
+SUBTITLE = "A spoken reading. Two explanations. One revealing test."
 
 INK = colors.HexColor("#172B32")
 SECONDARY = colors.HexColor("#51646A")
@@ -81,7 +82,7 @@ def draw_page(canvas, doc):
     canvas.saveState()
     canvas.setTitle("Benchlog - Hiya Voice AI Challenge")
     canvas.setAuthor("Tala Yahya")
-    canvas.setSubject("A voice notebook for the electronics bench; Productivity track")
+    canvas.setSubject("A voice-led RC circuit investigation; Productivity track")
     canvas.setKeywords("Benchlog, voice, RC filter, productivity, AI-assisted prototype")
 
     canvas.setFillColor(INK)
@@ -93,7 +94,7 @@ def draw_page(canvas, doc):
 
     canvas.setFillColor(INK)
     canvas.setFont(BODY_FONT, 14)
-    canvas.drawString(left, height - 95, "A voice notebook for the electronics bench")
+    canvas.drawString(left, height - 95, SUBTITLE)
     canvas.setFillColor(SECONDARY)
     canvas.setFont(BODY_FONT, 9.5)
     canvas.drawString(left, height - 116, "Tala Yahya  /  Hiya Voice AI Challenge  /  Productivity")

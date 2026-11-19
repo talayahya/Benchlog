@@ -1,4 +1,5 @@
 import { createSession, validateConfig, type Session } from "./engine";
+import { isInvestigationPlan } from "./investigation";
 const KEY = "benchlog.notebook.v1";
 export function loadSession(): { session: Session; error: string | null } {
   try {
@@ -35,6 +36,12 @@ export function isSession(value: unknown): value is Session {
   )
     return false;
   if (s.measurements.length > 5000 || s.notes.length > 5000) return false;
+  if (
+    s.investigation !== undefined &&
+    s.investigation !== null &&
+    !isInvestigationPlan(s.investigation)
+  )
+    return false;
   return (
     s.measurements.every(
       (m) =>

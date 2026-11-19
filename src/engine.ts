@@ -3,6 +3,12 @@
  * laboratory record is not. No model-generated code or formula is executed here.
  * Deliberately bounded English commands keep every accepted value inspectable.
  */
+import {
+  planInvestigation,
+  evaluateInvestigation,
+  type InvestigationPlan,
+} from "./investigation";
+
 export type Source = "voice" | "typed" | "demo";
 export type Config = {
   title: string;
@@ -40,6 +46,7 @@ export type Session = {
   notes: Note[];
   pending: Pending | null;
   reply: string;
+  investigation?: InvestigationPlan | null;
 };
 
 export const DEFAULT_CONFIG: Config = {
@@ -450,6 +457,19 @@ function pendingReply(pending: Pending, config: Config): string {
       : "Say save, correct a value, or discard.")
   );
 }
+
+function describePlan(plan: InvestigationPlan): string {
+  return `Both models were fitted to the same saved reading, so that reading cannot distinguish them. Try ${speakFrequency(plan.targetFrequencyHz)}. The changed-time-constant model predicts ${compact(plan.predictions.changedTimeConstantVpp)} volts peak-to-peak; the scale model predicts ${compact(plan.predictions.frequencyIndependentScaleVpp)} volts peak-to-peak. These predictions are now fixed. Measure the circuit, then report and confirm the result.`;
+}
+
+function investigationReply(state: Session): string {
+  if (!state.investigation)
+    return "Save an unexpected reading, then say compare explanations. I will fit two possible models and choose a measurement that separates their predictions.";
+  const evaluation = evaluateInvestigation(state, state.investigation);
+  return evaluation.state === "waiting"
+    ? describePlan(state.investigation)
+    : evaluation.reason;
+}
 const uid = () =>
   typeof crypto !== "undefined" && crypto.randomUUID
     ? crypto.randomUUID()
@@ -471,6 +491,33 @@ export function handleUtterance(
       "That is too long for a single command. Please give one reading or a shorter note.",
     );
   if (
+    /^(?:compare (?:the )?explanations|investigate|investigate (?:this|that|the reading)|what would tell (?:these|those|them) apart|what would distinguish (?:these|those|them)|new comparison|start (?:a )?new comparison)$/.test(
+      command,
+    )
+  ) {
+    if (state.pending)
+      return reply(
+        "Confirm or discard the current reading first. An investigation must start from a saved observation.",
+      );
+    const newComparison = /new comparison/.test(command);
+    if (state.investigation && !newComparison)
+      return reply(investigationReply(state));
+    const result = planInvestigation(state);
+    if (!result.plan) return reply(result.reason);
+    return {
+      ...state,
+      investigation: result.plan,
+      reply: describePlan(result.plan),
+    };
+  }
+  if (
+    /^(?:review (?:the )?investigation|review (?:the )?comparison|what does (?:this|that) tell (?:us|me)|which explanation fits|what did we learn|why (?:this|that) (?:test|frequency))$/.test(
+      command,
+    )
+  ) {
+    return reply(investigationReply(state));
+  }
+  if (
     /^(?:save|save that|save it|save (?:the )?(?:reading|measurement)|confirm|confirm (?:the )?(?:reading|measurement)|confirm that|yes save|yes save it)$/.test(
       command,
     )
@@ -490,12 +537,20 @@ export function handleUtterance(
       outputVpp: p.outputVpp!,
       history: [...p.history],
     };
-    return {
+    const saved: Session = {
       ...state,
       measurements: [...state.measurements, measurement],
       pending: null,
       reply: "Saved. " + describe(measurement) + ".",
     };
+    if (saved.investigation) {
+      const evaluation = evaluateInvestigation(saved, saved.investigation);
+      if (
+        evaluation.observations.some((o) => o.measurementId === measurement.id)
+      )
+        saved.reply += " " + evaluation.reason;
+    }
+    return saved;
   }
   if (
     /^(?:cancel|cancel that|discard|discard that|(?:discard|cancel) (?:the )?(?:reading|measurement))$/.test(
@@ -578,7 +633,7 @@ export function handleUtterance(
   }
   if (/^(?:help|what can i say|commands|show commands)$/.test(command))
     return reply(
-      "Try: at one kilohertz, output one point six eight volts. Then say save, correct output to one point seven volts, or discard. You can also say note, followed by an observation; repeat last reading; undo last reading; summary; or suggest next frequency.",
+      "Try: at one kilohertz, output one point six eight volts. Then say save, correct output to one point seven volts, or discard. You can also say note, followed by an observation; repeat last reading; undo last reading; summary; or suggest next frequency. After saving an unexpected reading, say compare explanations or what would tell these apart. Say review the investigation to hear the comparison.",
     );
   if (
     /^(?:summary|summari[sz]e|summari[sz]e session|session summary|summari[sz]e the session)$/.test(
@@ -599,6 +654,7 @@ export function handleUtterance(
       command,
     )
   ) {
+    if (state.investigation) return reply(investigationReply(state));
     const fc = cutoffHz(state.config);
     const candidates = [fc, fc / 10, fc * 10, fc / 2, fc * 2, fc / 5, fc * 5];
     const next = candidates.find(
@@ -798,5 +854,25 @@ export function toMarkdown(session: Session): string {
       "",
       "**Demonstration data:** Records labelled demo are illustrative values, not readings from a physical experiment.",
     );
+  if (session.investigation) {
+    const p = session.investigation;
+    const outcome = evaluateInvestigation(session, p);
+    lines.push(
+      "",
+      "## Prediction receipt",
+      "",
+      `Plan: ${md(p.id)}. Created: ${md(p.createdAt)}.`,
+      `Anchor record: ${md(p.anchor.id)} at ${compact(p.anchor.frequencyHz)} Hz, ${compact(p.anchor.outputVpp)} Vpp.`,
+      "Both models were fitted to this anchor. Their agreement here is not independent evidence.",
+      `Proposed test: ${compact(p.targetFrequencyHz)} Hz.`,
+      `- Changed RC time constant predicted: ${compact(p.predictions.changedTimeConstantVpp)} Vpp.`,
+      `- Frequency-independent scale predicted: ${compact(p.predictions.frequencyIndependentScaleVpp)} Vpp.`,
+      "These predictions were fixed before the test reading and were not refitted to it.",
+      "Comparison band: the larger of 5% of each prediction or 0.01 V. This is an illustrative review rule, not calibrated instrument uncertainty. Readings within 2% of the planned frequency are eligible.",
+      `Result: ${md(outcome.reason)}`,
+      `Eligible subsequent records: ${outcome.observations.map((o) => md(o.measurementId)).join(", ") || "None yet"}.`,
+      "This comparison cannot identify resistance versus capacitance separately, and a scaling model does not establish a probe fault. Other explanations may exist.",
+    );
+  }
   return lines.join("\n") + "\n";
 }

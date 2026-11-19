@@ -77,3 +77,19 @@ White text on the primary-action colour is 5.59:1. Pale dividers cannot be the o
 - Compare completion time and corrected-error rate with a basic spreadsheet using the same experiment.
 - Validate the local model on more devices and browsers before recommending it as a dependable offline workflow.
 - Test the circuit workflow in a real lab. Synthetic example readings demonstrate the software, not a physical experiment.
+
+## 19 November: differentiation and the investigation loop
+
+Voice laboratory notebooks are an established category. LabTwin offers spoken scientific notes and tables, protocol prompts, unit-aware data capture and real-time sanity checks. LabVoice offers guided multimodal lab workflows and structured data capture. An open-source LabBuddy project also demonstrates speech-to-structured-protocol extraction and exports. These examples support the existence of the problem, but mean Benchlog should not claim to have invented voice lab documentation or scientific validation. [LabTwin](https://labforward.io/labtwin?hsLang=en), [LabVoice](https://www.labvoice.ai/), [LabBuddy source](https://github.com/abeckDev/LabBuddy-SmartLabProtocollationAssistant)
+
+An earlier option was a narrow RC sweep loop: let a student explicitly choose a confirmed low-frequency reference, find confirmed readings on opposite sides of the half-power target, and suggest a frequency that narrows that bracket. **This option was superseded before the final implementation.** The next two paragraphs preserve its mathematical reasoning as a design record, not a description of a shipped feature.
+
+The target amplitude is the selected reference output divided by the square root of two. The corresponding relative gain is approximately -3.0103 dB. Filter bandwidth levels are defined against a passband reference; using an absolute -3 dB output/input threshold can mislead when insertion loss or loading changes the passband gain. A low-frequency reference approximates the passband and does not calibrate the instruments. [Keysight filter measurement concepts](https://helpfiles.keysight.com/csg/e5080b/Tutorials/Pass-Band_Measurements.htm), [Analog Devices filter-topology guide](https://www.analog.com/en/resources/technical-articles/2022/07/16/07/55/a-beginners-guide-to-filter-topologies.html)
+
+For a bracket with positive endpoints f1 and f2, the geometric midpoint is sqrt(f1 × f2). It lies halfway between them on a logarithmic frequency axis. Any interpolated crossing is an estimate between confirmed points, not a directly observed frequency or a statistical confidence interval. Conflicting repeats or several possible crossings should withhold a unique estimate and prompt another measurement. Component tolerances, probe loading and instrument uncertainty are not inferred from a handful of spoken values. Keeping those limits visible is preferable to adding unsupported calibration or confidence claims.
+
+### Final implementation: two explanations and a prospective test
+
+The implemented extension instead fits two constrained explanations to one confirmed observation, then selects a new test from a bounded frequency grid. One explanation changes the RC time constant; the other keeps the nominal response shape and changes a constant amplitude scale. Both fit the anchor by construction. The app saves their different predictions before a new reading arrives and compares that held-out observation without refitting. Both, neither and inconsistent-repeat outcomes remain possible.
+
+This choice makes the reason for a next measurement visible, while keeping the mathematics small enough to inspect. Voice-based circuit troubleshooting and active test selection have substantial prior art. The [focused prior-art review](investigation-prior-art.md) cites the relevant systems, equations and limits. The claim is a specific, transparent student workflow, not a first-ever algorithm or a validated learning improvement.

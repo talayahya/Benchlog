@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "base_dir": ".",
+  "expected_duration": 140,
+  "disclosure": "Edited app capture sequence · synthetic test voice and readings",
+  "scenes": [
+    {
+      "title": "A useful next question",
+      "duration": 14,
+      "shots": [
+        {
+          "image": "captures/02-intro.jpg",
+          "duration": 14,
+          "crop": [
+            0,
+            85,
+            1230,
+            660
+          ],
+          "caption": "A low output does not explain itself.",
+          "detail": "Has the circuit changed, or is the measurement scaled? Choose a test that tells them apart."
+        }
+      ]
+    },
+    {
+      "title": "Speak, check, confirm",
+      "duration": 19,
+      "shots": [
+        {
+          "image": "captures/03-spoken-anchor.jpg",
+          "duration": 8,
+          "crop": [
+            290,
+            290,
+            1215,
+            610
+          ],
+          "caption": "“At ten kilohertz, output thirty-one millivolts.”",
+          "detail": "Synthetic input clip, transcribed by the real local Whisper model. Inference wait shortened."
+        },
+        {
+          "image": "captures/04-transcript.jpg",
+          "duration": 11,
+          "crop": [
+            285,
+            20,
+            1215,
+            590
+          ],
+          "caption": "Check the interpretation before it becomes evidence.",
+          "detail": "10 kHz · 31 mVpp · fixed 2 Vpp input. The reading stays pending until confirmed."
+        }
+      ]
+    },
+    {
+      "title": "One reading, two explanations",
+      "duration": 22,
+      "shots": [
+        {
+          "image": "captures/07-models.jpg",
+          "duration": 11,
+          "crop": [
+            300,
+            32,
+            1210,
+            605
+          ],
+          "caption": "“What would tell these apart?”",
+          "detail": "Both models fit the starting reading. Matching that one number does not choose a winner."
+        },
+        {
+          "image": "captures/07-models.jpg",
+          "duration": 11,
+          "crop": [
+            300,
+            130,
+            1210,
+            505
+          ],
+          "caption": "Different circuit response. Or a different amplitude scale.",
+          "detail": "One model changes R × C; the other preserves the nominal curve and scales its output."
+        }
+      ]
+    },
+    {
+      "title": "Commit before measuring",
+      "duration": 23,
+      "shots": [
+        {
+          "image": "captures/07-models.jpg",
+          "duration": 13,
+          "crop": [
+            300,
+            245,
+            1210,
+            505
+          ],
+          "caption": "At 80 Hz, their predictions separate.",
+          "detail": "Approximately 1.78 Vpp versus 0.197 Vpp. Chosen from a bounded frequency grid."
+        },
+        {
+          "image": "captures/08-receipt.jpg",
+          "duration": 10,
+          "crop": [
+            300,
+            300,
+            1210,
+            575
+          ],
+          "caption": "Benchlog saves the predictions before the next reading.",
+          "detail": "The receipt keeps the starting observation, setup and fitted models fixed."
+        }
+      ]
+    },
+    {
+      "title": "Test the prediction",
+      "duration": 22,
+      "shots": [
+        {
+          "image": "captures/09-spoken-result.jpg",
+          "duration": 9,
+          "crop": [
+            290,
+            290,
+            1215,
+            610
+          ],
+          "caption": "“At eighty hertz, output one point seven eight volts.”",
+          "detail": "A second synthetic observation through real Whisper. Check it, then confirm."
+        },
+        {
+          "image": "captures/12-result-detail.jpg",
+          "duration": 13,
+          "crop": [
+            300,
+            90,
+            1215,
+            505
+          ],
+          "caption": "Closer to the changed-time-constant example.",
+          "detail": "Compared with the saved prediction. Neither model is refitted to this answer."
+        }
+      ]
+    },
+    {
+      "title": "Know what it cannot tell you",
+      "duration": 20,
+      "shots": [
+        {
+          "image": "captures/13-receipt-limits.jpg",
+          "duration": 10,
+          "crop": [
+            300,
+            215,
+            1210,
+            510
+          ],
+          "caption": "A model match is not proof of a faulty component.",
+          "detail": "The model sees R × C. It cannot tell which component changed."
+        },
+        {
+          "image": "captures/15-neither-model.jpg",
+          "duration": 10,
+          "crop": [
+            295,
+            0,
+            1210,
+            395
+          ],
+          "caption": "Neither explanation is also a valid outcome.",
+          "detail": "Separate synthetic example: 0.8 Vpp at 80 Hz falls outside both comparison bands."
+        }
+      ]
+    },
+    {
+      "title": "Keep the evidence",
+      "duration": 20,
+      "shots": [
+        {
+          "image": "captures/13-receipt-limits.jpg",
+          "duration": 10,
+          "crop": [
+            300,
+            0,
+            1210,
+            275
+          ],
+          "caption": "The original reading, prediction and result stay together.",
+          "detail": "Inspect the saved receipt. Speech uses AI; the comparisons are deterministic code."
+        },
+        {
+          "image": "captures/12-result-detail.jpg",
+          "duration": 10,
+          "crop": [
+            300,
+            90,
+            1215,
+            505
+          ],
+          "caption": "A spoken observation. A reason for the next test.",
+          "detail": "Try: talayahya.github.io/Benchlog · Source: github.com/talayahya/Benchlog"
+        }
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "file": "../../public/examples/investigation-anchor.wav",
+      "start": 15,
+      "kind": "synthetic-input",
+      "gain": 0.85
+    },
+    {
+      "file": "../../public/examples/investigation-question.wav",
+      "start": 34,
+      "kind": "synthetic-input",
+      "gain": 0.85
+    },
+    {
+      "file": "../../public/examples/investigation-result.wav",
+      "start": 79,
+      "kind": "synthetic-input",
+      "gain": 0.85
+    }
+  ]
+}
